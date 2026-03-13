@@ -65,9 +65,12 @@ def load_wav(path: str | Path) -> tuple[np.ndarray, int]:
 def _normalise(data: np.ndarray) -> np.ndarray:
     """Convert integer PCM samples to float32 in [-1.0, 1.0]."""
     if np.issubdtype(data.dtype, np.integer):
-        max_val = float(np.iinfo(data.dtype).max)
-        return (data.astype(np.float32) / max_val)
-    return np.clip(data.astype(np.float32), -1.0, 1.0)
+        info = np.iinfo(data.dtype)
+        max_abs = float(max(abs(info.min), info.max))
+        float_data = data.astype(np.float32) / max_abs
+        return np.clip(float_data, -1.0, 1.0)
+    float_data = data.astype(np.float32)
+    return np.clip(float_data, -1.0, 1.0)
 
 
 # ---------------------------------------------------------------------------

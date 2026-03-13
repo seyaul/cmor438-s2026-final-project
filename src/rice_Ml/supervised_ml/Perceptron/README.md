@@ -1,0 +1,1 @@
+This package implements the Perceptron, a single-layer neural network model. It is classification agorithm that finds a linear boundary that separates two classes. 

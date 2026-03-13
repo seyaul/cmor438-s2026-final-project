@@ -212,11 +212,19 @@ def frame_center_times(
 
     Raises
     ------
+    TypeError
+        If any argument is not an integer (or is a boolean).
     ValueError
         If any argument is non-positive.
     """
     for name, val in [("n_frames", n_frames), ("frame_len", frame_len),
                       ("hop_len", hop_len), ("sr", sr)]:
+        # Reject booleans and non-integer types explicitly to avoid surprising
+        # behaviour (e.g., True being treated as 1).
+        if isinstance(val, bool) or not isinstance(val, (int, np.integer)):
+            raise TypeError(
+                f"{name} must be an integer >= 1, got value {val!r} of type {type(val).__name__}."
+            )
         if val < 1:
             raise ValueError(f"{name} must be >= 1, got {val}.")
     indices = np.arange(n_frames, dtype=np.float64)

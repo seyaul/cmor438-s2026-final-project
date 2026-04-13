@@ -26,7 +26,7 @@ class KNNClassifier(_KNNBase):
         Number of nearest neighbours to consider.
     metric : str or callable, default ``"euclidean"``
         Distance function.  Accepts ``"euclidean"`` or ``"taxicab"`` for the
-        built-ins in :mod:`rice_Ml.measures_ml.distances`, or any callable
+        built-ins in :mod:`rice_ML.measures_ml.distances`, or any callable
         with signature ``f(u, v) -> float``.
 
     Attributes
@@ -39,7 +39,7 @@ class KNNClassifier(_KNNBase):
     Examples
     --------
     >>> import numpy as np
-    >>> from rice_Ml.supervised_ml.knn.classifier import KNNClassifier
+    >>> from rice_ML.supervised_ml.knn.classifier import KNNClassifier
     >>> X_train = np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [5.0, 5.0]])
     >>> y_train = np.array([0, 0, 0, 1])
     >>> clf = KNNClassifier(k=3).fit(X_train, y_train)

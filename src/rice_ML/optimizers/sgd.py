@@ -2,14 +2,19 @@ import numpy as np
 
 class SGD:
     """
-    Stochastic Gradient Descent optimizer.
-    Supports optional momentum.
+    Stochastic Gradient Descent optimizer with optional momentum and gradient clipping.
     """
 
-    def __init__(self, learning_rate: float = 0.01, momentum: float = 0.0):
+    def __init__(
+        self,
+        learning_rate: float = 0.01,
+        momentum: float = 0.0,
+        clipnorm: float = None,  
+    ):
         self.lr = learning_rate
         self.momentum = momentum
-        self.velocities = {}   # For momentum updates
+        self.clipnorm = clipnorm
+        self.velocities = {}
 
     def update(self, params: dict, grads: dict) -> None:
         """
@@ -23,8 +28,15 @@ class SGD:
             Dictionary of parameter name -> gradient array.
         """
         for name, param in params.items():
-            grad = grads[name]
+            grad = grads[name].copy() 
 
+            # ---- Gradient Clipping ----
+            if self.clipnorm is not None and self.clipnorm > 0:
+                grad_norm = np.linalg.norm(grad)
+                if grad_norm > self.clipnorm:
+                    grad = grad * (self.clipnorm / grad_norm)
+
+            # ---- Momentum Update ----
             if self.momentum > 0:
                 if name not in self.velocities:
                     self.velocities[name] = np.zeros_like(param)

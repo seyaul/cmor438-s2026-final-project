@@ -1,6 +1,7 @@
 import numpy as np
+from .base import Optimizer
 
-class SGD:
+class SGD(Optimizer):
     """
     Stochastic Gradient Descent optimizer with optional momentum and gradient clipping.
     """

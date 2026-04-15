@@ -3,8 +3,9 @@ Loss functions for classification models
 """
 
 import numpy as np
+from .base import Loss
 
-class BinaryCrossEntropy:
+class BinaryCrossEntropy(Loss):
     """Any binary classifier (logistic regression, neural network) can use this loss"""
 
     def __call__(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:

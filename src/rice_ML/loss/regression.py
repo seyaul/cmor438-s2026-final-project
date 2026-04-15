@@ -1,6 +1,7 @@
 import numpy as np
+from .base import Loss
 
-class MeanSquaredError:
+class MeanSquaredError(Loss):
     """Mean Squared Error loss for regression."""
 
     def __call__(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:

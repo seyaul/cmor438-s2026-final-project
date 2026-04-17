@@ -1,5 +1,5 @@
 """
-rice_ML.supervised_ml.knn
+rice_Ml.supervised_ml.knn
 =========================
 
 K-Nearest Neighbours estimators.

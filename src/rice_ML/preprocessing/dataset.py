@@ -40,7 +40,7 @@ def label_frames_midi(
     frame_times : numpy.ndarray, shape (n_frames,)
         Centre timestamps of each frame in seconds.
     note_events : list of (onset, offset, midi_note) tuples
-        As returned by :func:`~rice_ML.preprocessing.guitarset.get_note_events`.
+        As returned by :func:`~rice_Ml.preprocessing.guitarset.get_note_events`.
     silence_label : int, default 0
         Label assigned to silent frames.
 
@@ -235,6 +235,99 @@ def build_multi_string_dataset(
         X_i, y_i = build_dataset(
             hex_cln_wav_path, jams_path, string_idx=idx, **kwargs
         )
+        X_parts.append(X_i)
+        y_parts.append(y_i)
+
+    return np.vstack(X_parts), np.concatenate(y_parts)
+
+
+# ---------------------------------------------------------------------------
+# mirdata track-based pipeline
+# ---------------------------------------------------------------------------
+
+def build_dataset_from_track(
+    track,
+    string_idx: int = 0,
+    frame_len: int = 2048,
+    hop_len: int = 512,
+    label: str = "midi",
+    n_mfcc: int = 13,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Run the full preprocessing pipeline for a mirdata GuitarSet track.
+
+    Identical to :func:`build_dataset` but accepts a mirdata track object
+    instead of file paths, so no local WAV or JAMS files are needed.
+
+    Parameters
+    ----------
+    track : mirdata.datasets.guitarset.Track
+        As returned by ``guitarset.track(track_id)``.
+    string_idx : int, default 0
+        Guitar string to process (0 = low E, 5 = high E).
+    frame_len : int, default 2048
+    hop_len : int, default 512
+    label : {"midi", "voiced", "frequency"}, default "midi"
+    n_mfcc : int, default 13
+
+    Returns
+    -------
+    X : numpy.ndarray, shape (n_frames, n_mfcc + 5)
+    y : numpy.ndarray, shape (n_frames,)
+    """
+    if label not in _VALID_LABELS:
+        raise ValueError(f"label must be one of {_VALID_LABELS}, got {label!r}.")
+
+    jams = track.jams()
+    note_events = get_note_events(jams, string_idx)
+    c_times, c_freqs, c_voiced = get_pitch_contour(jams, string_idx)
+
+    # mirdata returns float64 in [-1, 1]; normalise to float32 for consistency
+    audio_data, sr = track.audio_hex_cln
+    audio = np.clip(audio_data.astype(np.float32), -1.0, 1.0)
+
+    mono = extract_string(audio, string_idx)
+    frames = frame_signal(mono, frame_len=frame_len, hop_len=hop_len)
+    n_frames = frames.shape[0]
+    times = frame_center_times(n_frames, frame_len=frame_len, hop_len=hop_len, sr=sr)
+
+    X = extract_all(frames, sr=sr, n_mfcc=n_mfcc)
+
+    if label == "midi":
+        y = label_frames_midi(times, note_events)
+    elif label == "voiced":
+        y = label_frames_voiced(times, c_times, c_voiced)
+    else:
+        y = label_frames_frequency(times, c_times, c_freqs, c_voiced)
+
+    return X, y
+
+
+def build_multi_string_dataset_from_track(
+    track,
+    string_indices: Sequence[int] | None = None,
+    **kwargs,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Build a dataset by stacking results across multiple strings from a mirdata track.
+
+    Parameters
+    ----------
+    track : mirdata.datasets.guitarset.Track
+    string_indices : sequence of int or None, default None
+        Which strings to include. None uses all 6 strings (0–5).
+    **kwargs
+        Forwarded to :func:`build_dataset_from_track`.
+
+    Returns
+    -------
+    X : numpy.ndarray, shape (n_total_frames, n_features)
+    y : numpy.ndarray, shape (n_total_frames,)
+    """
+    if string_indices is None:
+        string_indices = list(range(6))
+
+    X_parts, y_parts = [], []
+    for idx in string_indices:
+        X_i, y_i = build_dataset_from_track(track, string_idx=idx, **kwargs)
         X_parts.append(X_i)
         y_parts.append(y_i)
 

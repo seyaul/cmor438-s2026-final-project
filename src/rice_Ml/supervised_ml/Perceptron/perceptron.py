@@ -3,28 +3,23 @@ import numpy as np
 #do we need pandas currently?
 # import pandas as pd
 
-from sklearn.datasets import load_iris
-from rice_Ml.supervised_ml.Perceptron import perceptron
-from rice_Ml.preprocessing import train_test_split, standardize
-from rice_Ml.preprocessing import accuracy_score
-
-import matplotlib.pyplot as plt
-
 
 class Perceptron(object):
-    #eta is learning rate / our neuron cost function derivative 1/2 * 2 
+    #eta is learning rate / our neuron cost function derivative 1/2 * 2
     def __init__(self, eta = 0.1, epochs = 50):
         self.eta = eta
         self.epochs = epochs
 
-#write a high level program for what needs to be done 
+#write a high level program for what needs to be done
 
     def train(self, X, y):
+        X = np.array(X)
+        y = np.array(y)
 
         #initialize w1, w2, and b
         #np.random.rand(1+X.shape[1]) = septal width randomized
         self.w_b = np.random.rand(1 + X.shape[1])
-        
+
         #wb will be our weights
         epoch_counter = 0
 
@@ -35,12 +30,12 @@ class Perceptron(object):
         while epoch_counter < self.epochs:
             errors = 0
             for xi, yi in zip(X,y):
-            
+
             #also mistakes
 
-                #our alpha adjustment is the value we multiply by 
+                #our alpha adjustment is the value we multiply by
                 # bias = alpha * xi
-                # weight = alpha 
+                # weight = alpha
                 prediction = self.predict(xi)
                 if prediction - yi != 0:
                     adjustment = self.eta*(prediction-yi)
@@ -48,14 +43,14 @@ class Perceptron(object):
                     self.w_b[-1] -= adjustment
                     #no idea what this does
                     errors += int(adjustment != 0)
-            #no idea? 
+            #no idea?
             if errors == 0:
                     return self
             else:
                 self.mistakes.append(errors)
             epoch_counter += 1
-            
-        return 
+
+        return self
 
     #product length and width by the weights of each + bias
     def net_input(self, X):

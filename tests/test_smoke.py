@@ -107,3 +107,54 @@ def test_smoke_recommender():
 
     assert len(neighbours) == 1
     assert isinstance(rating, float)
+
+
+# ---------------------------------------------------------------------------
+# DecisionTree
+# ---------------------------------------------------------------------------
+
+def test_import_decision_tree():
+    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    assert DecisionTree
+
+
+def test_smoke_decision_tree_gini():
+    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
+    y = np.array([0, 0, 0, 1, 1, 1])
+
+    dt = DecisionTree(criterion="gini").fit(X, y)
+    preds = dt.predict(X)
+
+    assert preds.shape == (6,)
+    assert dt.score(X, y) == pytest.approx(1.0)
+
+
+def test_smoke_decision_tree_entropy():
+    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
+    y = np.array([0, 0, 0, 1, 1, 1])
+
+    dt = DecisionTree(criterion="entropy").fit(X, y)
+    preds = dt.predict(X)
+
+    assert preds.shape == (6,)
+    assert dt.score(X, y) == pytest.approx(1.0)
+
+
+def test_smoke_decision_tree_max_depth():
+    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
+    y = np.array([0, 0, 0, 1, 1, 1])
+
+    dt = DecisionTree(max_depth=1).fit(X, y)
+    preds = dt.predict(X)
+
+    assert preds.shape == (6,)
+    assert set(preds).issubset({0, 1})

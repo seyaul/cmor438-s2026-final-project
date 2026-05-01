@@ -116,6 +116,19 @@ def test_smoke_recommender():
 # Perceptron training smoke test
 # ---------------------------------------------------------------------------
 
+def test_import_decision_tree():
+    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    assert DecisionTree
+
+
+# ---------------------------------------------------------------------------
+# DecisionTree smoke test — TODO: fill in once fit/predict are implemented
+# ---------------------------------------------------------------------------
+
+def test_smoke_decision_tree_train():
+    raise NotImplementedError
+
+
 def test_smoke_perceptron_train():
     from rice_ML.supervised_ml.Perceptron.perceptron import Perceptron
 

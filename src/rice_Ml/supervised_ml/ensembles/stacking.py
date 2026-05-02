@@ -1,6 +1,7 @@
 """Stacking ensemble: combines base estimator predictions via a meta-learner."""
 
 import numpy as np
+from rice_Ml.model_selection.split import KFold
 
 
 class StackingClassifier:
@@ -49,9 +50,9 @@ class StackingClassifier:
 
         # --- build out-of-fold meta-features ---
         meta_X = np.zeros((n_samples, n_base))
-        fold_indices = self._kfold_indices(n_samples, self.cv)
+        kfold = KFold(n_splits=self.cv)
 
-        for fold_train_idx, fold_val_idx in fold_indices:
+        for fold_train_idx, fold_val_idx in kfold.split(X):
             for col, (_, est) in enumerate(self.estimators):
                 est.fit(X[fold_train_idx], y[fold_train_idx])
                 meta_X[fold_val_idx, col] = est.predict(X[fold_val_idx])
@@ -80,15 +81,3 @@ class StackingClassifier:
         """Collect base estimator predictions into a (n_samples, n_base) matrix."""
         return np.column_stack([est.predict(X) for _, est in self.estimators_])
 
-    def _kfold_indices(self, n_samples, k):
-        """Return list of (train_indices, val_indices) tuples for k-fold split."""
-        indices = np.arange(n_samples)
-        fold_size = n_samples // k
-        folds = []
-        for i in range(k):
-            start = i * fold_size
-            end = start + fold_size if i < k - 1 else n_samples
-            val_idx = indices[start:end]
-            train_idx = np.concatenate([indices[:start], indices[end:]])
-            folds.append((train_idx, val_idx))
-        return folds

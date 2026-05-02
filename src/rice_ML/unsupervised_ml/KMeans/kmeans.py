@@ -51,6 +51,12 @@ class KMeans:
         tol      — convergence tolerance; stop when centroid shift <= tol
         init     — centroid initialisation strategy: 'random' or 'kmeans++'
         """
+        if not isinstance(k, int) or k < 1:
+            raise ValueError("k must be a positive integer")
+        if not isinstance(max_iter, int) or max_iter < 1:
+            raise ValueError("max_iter must be a positive integer")
+        if init not in ("random", "kmeans++"):
+            raise ValueError("init must be 'random' or 'kmeans++'")
         self.k = k
         self.max_iter = max_iter
         self.tol = tol
@@ -86,6 +92,10 @@ class KMeans:
         """
         
         X = np.array(X)
+        if X.ndim != 2:
+            raise ValueError("X must be a 2-D array")
+        if self.k > len(X):
+            raise ValueError("k cannot exceed the number of samples")
 
         self.centroids_ = self._init_centroids(X)
 
@@ -249,7 +259,7 @@ class KMeans:
         -------
         converged : bool
         """
-        return np.max(np.linalg.norm(old_centroids-new_centroids, axis=1)) < self.tol
+        return bool(np.max(np.linalg.norm(old_centroids-new_centroids, axis=1)) < self.tol)
 
 
     def _compute_inertia(self, X, labels):

@@ -31,6 +31,115 @@ Use gwenfitz's notebook structure as the template whenever writing a new example
 
 ---
 
+## Golden Standard File Trees
+
+### ryker — rykerdolese/Data-Science-and-Machine-Learning
+
+```
+Data-Science-and-Machine-Learning/
+├── .github/
+│   └── workflows/
+├── .gitignore
+├── README.md
+├── pyproject.toml
+├── pytest.ini
+├── requirements.txt
+├── setup.py
+├── src/
+│   └── mlpackage/
+│       ├── __init__.py
+│       ├── metrics.py
+│       ├── preprocess.py
+│       ├── supervised_learning/
+│       │   ├── Decision Trees (Classifier & Regressor)/
+│       │   ├── Ensembles/
+│       │   ├── KNN/
+│       │   ├── Linear Regression/
+│       │   ├── Logistic Regression/
+│       │   ├── Neural Networks/
+│       │   └── Perceptron/
+│       └── unsupervised_learning/
+│           ├── DBSCAN/
+│           ├── K-means/
+│           ├── Label Propagation - Community Detection/
+│           ├── PCA/
+│           └── SVD/
+├── examples/
+│   ├── README.md
+│   ├── Supervised Learning/
+│   └── Unsupervised Learning/
+└── tests/
+    ├── __init__.py
+    ├── test_dbscan.py
+    ├── test_decision_tree_classifier.py
+    ├── test_decision_tree_regressor.py
+    ├── test_kmeans.py
+    ├── test_knn.py
+    ├── test_layer_propogation.py
+    ├── test_linear_regression.py
+    ├── test_logistic_regression.py
+    ├── test_metrics.py
+    ├── test_mlp.py
+    ├── test_pca.py
+    ├── test_perceptron.py
+    └── test_preprocess.py
+```
+
+Note: ryker uses flat tests (all `test_*.py` at `tests/` root). We prefer nested to mirror `src/`.
+
+---
+
+### gwen — gwenfitz/fitzsimmons-cmor-438
+
+```
+fitzsimmons-cmor-438/
+├── .github/
+├── .gitignore
+├── LICENSE
+├── README.md
+├── requirements.txt
+├── pyproject.toml
+├── src/
+│   └── rice_ml/
+│       ├── __init__.py
+│       ├── supervised_learning/
+│       │   ├── __init__.py
+│       │   ├── classification/
+│       │   │   ├── decision_trees.py
+│       │   │   ├── ensemble_methods.py
+│       │   │   ├── knn.py
+│       │   │   ├── logistic_regression.py
+│       │   │   ├── perceptron.py
+│       │   │   └── README.md
+│       │   └── regression/
+│       │       ├── gradient_descent.py
+│       │       ├── linear_regression.py
+│       │       ├── multilayer_perceptron.py
+│       │       ├── regression_trees.py
+│       │       └── README.md
+│       ├── unsupervised_learning/
+│       │   ├── __init__.py
+│       │   ├── clustering/
+│       │   │   ├── kmeans.py
+│       │   │   ├── dbscan.py
+│       │   │   ├── community_detection.py
+│       │   │   └── README.md
+│       │   └── dimensionality_reduction/
+│       │       ├── pca.py
+│       │       └── README.md
+│       └── processing/
+│           ├── __init__.py
+│           ├── preprocessing.py
+│           └── postprocessing.py
+├── notebooks/
+│   ├── supervised_learning/
+│   └── unsupervised_learning/
+└── tests/
+    └── unit/
+```
+
+---
+
 ## Repository Layout
 
 ```

@@ -57,15 +57,15 @@ class KMeans:
         self.tol = tol
         self.init = init
 
-Start with random centroids
-Assign each point to its nearest centroid
-Recalculate centroids as the mean of assigned points
-Repeat until centroids stop moving
+    # Start with random centroids
+    # Assign each point to its nearest centroid
+    # Recalculate centroids as the mean of assigned points
+    # Repeat until centroids stop moving
 
 
-attributes: clusters to form = k, stop moving threshold = m, epochs = e
+    # attributes: clusters to form = k, stop moving threshold = m, epochs = e
 
-choose a # of centroids equal to k on x, y 
+    # choose a # of centroids equal to k on x, y 
 
 
 
@@ -85,7 +85,24 @@ choose a # of centroids equal to k on x, y
         -------
         self
         """
-        pass
+        
+        X = np.array(X)
+
+        self.centroids_ = self._init_centroids(X)
+
+        for i in range(self.max_iter):
+            labels = self._assign_clusters(X)
+            new_centroids = self._update_centroids(X, labels)
+            if self._has_converged(self.centroids_, new_centroids):
+                break
+            self.centroids_ = new_centroids
+
+        self.labels_ = labels
+        self.inertia_ = self._compute_inertia(X, labels)
+        self.n_iter_ = i + 1
+
+        return self
+
 
     def predict(self, X):
         """
@@ -100,7 +117,10 @@ choose a # of centroids equal to k on x, y
         labels : ndarray of shape (n_samples,)
             Index of the cluster each sample belongs to.
         """
-        pass
+        if not hasattr(self, 'centroids_'):
+            raise RuntimeError("KMeans is not fitted yet, call fit() first")
+        return self._assign_clusters(np.array(X))
+
 
     def fit_predict(self, X):
         """
@@ -114,7 +134,7 @@ choose a # of centroids equal to k on x, y
         -------
         labels : ndarray of shape (n_samples,)
         """
-        pass
+        return self.fit(X).predict(X)
 
     def score(self, X):
         """
@@ -129,7 +149,8 @@ choose a # of centroids equal to k on x, y
         score : float
             Negative sum of squared distances to the nearest centroid.
         """
-        pass
+        
+        return -1 * self._compute_inertia(np.array(X), self.labels_)
 
     # ------------------------------------------------------------------
     # internal helpers
@@ -147,7 +168,18 @@ choose a # of centroids equal to k on x, y
         -------
         centroids : ndarray of shape (k, n_features)
         """
-        pass
+        if self.init == "kmeans++":
+            centroids = [X[np.random.randint(len(X))]]
+            for _ in range(1, self.k):
+                diffs = X[:, np.newaxis] - np.array(centroids)
+                sq_dists = (diffs ** 2).sum(axis=2)
+                min_sq_dists = sq_dists.min(axis=1)
+                probs = min_sq_dists / min_sq_dists.sum()
+                centroids.append(X[np.random.choice(len(X), p=probs)])
+            return np.array(centroids)
+
+        indices = np.random.choice(len(X), size=self.k, replace=False)
+        return X[indices]
 
     def _assign_clusters(self, X):
         """
@@ -161,7 +193,25 @@ choose a # of centroids equal to k on x, y
         -------
         labels : ndarray of shape (n_samples,) — cluster indices
         """
-        pass
+        
+        # original O(n·k·d) Python loop — kept for reference
+        # returnal = []
+        # for point in X:
+        #     nerest_centroid = float('inf')
+        #     nerest_index = None
+        #     for i, c in enumerate(self.centroids_):
+        #         distance = np.linalg.norm(point - c)
+        #         if distance < nerest_centroid:
+        #             nerest_centroid = distance
+        #             nerest_index = i
+        #     returnal.append(nerest_index)
+        # return np.array(returnal)
+
+        diffs = X[:, np.newaxis] - self.centroids_   # (n, k, d)
+        sq_distances = (diffs ** 2).sum(axis=2)       # (n, k)
+        return np.argmin(sq_distances, axis=1)        # (n,)
+
+
 
     def _update_centroids(self, X, labels):
         """
@@ -176,7 +226,14 @@ choose a # of centroids equal to k on x, y
         -------
         centroids : ndarray of shape (k, n_features)
         """
-        pass
+        centroids = []
+        #k is number of clusters in k-means, labels[i] is the indexical centroid
+        for i in range(self.k):
+            points_in_cluster = X[labels == i]
+            new_centroid = np.mean(points_in_cluster, axis=0)
+            centroids.append(new_centroid)
+        return np.array(centroids)
+
 
     def _has_converged(self, old_centroids, new_centroids):
         """
@@ -191,7 +248,8 @@ choose a # of centroids equal to k on x, y
         -------
         converged : bool
         """
-        pass
+        return np.max(np.linalg.norm(old_centroids-new_centroids, axis=1)) < self.tol
+
 
     def _compute_inertia(self, X, labels):
         """
@@ -206,4 +264,9 @@ choose a # of centroids equal to k on x, y
         -------
         inertia : float
         """
-        pass
+        inertia = 0
+        for i in range(self.k):
+            points_in_cluster = X[labels == i]
+            diffs = points_in_cluster - self.centroids_[i]
+            inertia += np.sum(np.linalg.norm(diffs, axis=1)**2)
+        return inertia

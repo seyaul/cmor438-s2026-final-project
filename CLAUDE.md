@@ -14,7 +14,6 @@ The professor's overall gold standard. Follow this for repo structure, packaging
 Has the best individual notebook quality. Follow this for how notebooks should be written.
 
 ### What makes rykerdolese the standard
-- Flat test structure — one `test_<module>.py` per algorithm at the top level of `tests/`
 - Full Python packaging: `setup.py` + `pytest.ini` + `pyproject.toml` + `requirements.txt`
 - Each example has its own folder with README + bundled dataset + notebook
 - Notebooks include: intuition section, full LaTeX math, EDA, decision boundary / loss curve visualizations, sklearn correctness comparison, parameter tuning, and prose commentary on every output
@@ -56,7 +55,9 @@ Use gwenfitz's notebook structure as the template whenever writing a new example
 │       └── unsupervised_ml/
 ├── tests/
 │   ├── __init__.py
-│   └── test_<module>.py     ← one file per algorithm/module
+│   ├── test_smoke.py
+│   └── <module>/
+│       └── test_<module>.py     ← mirrors src layout
 ├── pyproject.toml
 ├── requirements.txt
 └── README.md
@@ -68,7 +69,7 @@ Use gwenfitz's notebook structure as the template whenever writing a new example
 
 1. **Implement** the algorithm as a class in the appropriate `src/rice_Ml/supervised_ml/` or `src/rice_Ml/unsupervised_ml/` subdirectory.
 2. **Export** it from the relevant `__init__.py`.
-3. **Write a test file** at `tests/test_<algorithm_name>.py` — cover fit, predict, and edge cases. Do not nest under subdirectories; keep tests flat at the top level of `tests/`.
+3. **Write a test file** mirroring the source layout — e.g. `src/rice_Ml/supervised_ml/knn/` → `tests/supervised_ml/knn/test_knn.py`. Cover fit, predict, and edge cases.
 4. **Add an example** at `examples/<Supervised or Unsupervised> Learning/<Algorithm>/` with:
    - `README.md` explaining the algorithm and how to run the notebook
    - A dataset file
@@ -82,7 +83,8 @@ Use gwenfitz's notebook structure as the template whenever writing a new example
 
 - Framework: `pytest`
 - Run all tests: `pytest -v`
-- Tests live flat in `tests/test_<module>.py` — one file per algorithm (not nested in subdirs)
+- Tests mirror the `src/` layout — `tests/<module>/test_<module>.py`
+- `tests/test_smoke.py` stays at the top level for fast end-to-end sanity checks
 - CI runs on every PR targeting `main` via `.github/workflows/tests.yml`
 
 ---

@@ -178,3 +178,28 @@ def test_smoke_decision_tree_max_depth():
 
     assert preds.shape == (6,)
     assert set(preds).issubset({0, 1})
+
+
+# ---------------------------------------------------------------------------
+# RandomForest
+# ---------------------------------------------------------------------------
+
+def test_import_random_forest():
+    from rice_Ml.supervised_ml.ensembles import RandomForest
+    assert RandomForest
+
+
+def test_smoke_random_forest():
+    from rice_Ml.supervised_ml.ensembles import RandomForest
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
+    y = np.array([0, 0, 0, 1, 1, 1])
+
+    rf = RandomForest(n_estimators=10, random_state=0).fit(X, y)
+    preds = rf.predict(X)
+    proba = rf.predict_proba(X)
+
+    assert preds.shape == (6,)
+    assert proba.shape == (6, 2)
+    assert 0.0 <= rf.score(X, y) <= 1.0

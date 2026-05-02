@@ -164,7 +164,7 @@ class DecisionTree:
         
         #boolean masks for left and right subsets. all rows, only column feature 
         #X[:, feature] = give me every sample's value for this particular feature
-        left_mask = X[:, feature] <= threshold
+        left_mask = X[:, feature] <= threshol
         right_mask = X[:, feature] > threshold
 
         X_left, y_left = X[left_mask], y[left_mask]

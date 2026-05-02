@@ -25,7 +25,6 @@ until convergence or the iteration limit is reached.
         
 #     find_centroids(x,y, epochs+1, nc)
     
-
 #     epochs++
 
 import numpy as np
@@ -91,12 +90,14 @@ class KMeans:
         self.centroids_ = self._init_centroids(X)
 
         for i in range(self.max_iter):
+            #assigns all points to centroids
             labels = self._assign_clusters(X)
             new_centroids = self._update_centroids(X, labels)
             if self._has_converged(self.centroids_, new_centroids):
                 break
             self.centroids_ = new_centroids
 
+        #assigns labels, inertia and n_iter before they centroids are stable. 
         self.labels_ = labels
         self.inertia_ = self._compute_inertia(X, labels)
         self.n_iter_ = i + 1

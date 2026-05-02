@@ -134,12 +134,12 @@ def test_smoke_recommender():
 # ---------------------------------------------------------------------------
 
 def test_import_decision_tree():
-    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
     assert DecisionTree
 
 
 def test_smoke_decision_tree_gini():
-    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
     X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
                   [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
@@ -153,7 +153,7 @@ def test_smoke_decision_tree_gini():
 
 
 def test_smoke_decision_tree_entropy():
-    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
     X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
                   [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
@@ -167,7 +167,7 @@ def test_smoke_decision_tree_entropy():
 
 
 def test_smoke_decision_tree_max_depth():
-    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
     X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
                   [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])

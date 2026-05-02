@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from rice_ML.supervised_ml.knn.classifier import KNNClassifier
+from rice_Ml.supervised_ml.knn.classifier import KNNClassifier
 
 # ---------------------------------------------------------------------------
 # Shared fixtures

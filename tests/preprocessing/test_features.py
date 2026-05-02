@@ -1,9 +1,9 @@
-"""Unit tests for rice_ML.preprocessing.features."""
+"""Unit tests for rice_Ml.preprocessing.features."""
 
 import numpy as np
 import pytest
 
-from rice_ML.preprocessing.features import (
+from rice_Ml.preprocessing.features import (
     rms_energy,
     zero_crossing_rate,
     spectral_centroid,

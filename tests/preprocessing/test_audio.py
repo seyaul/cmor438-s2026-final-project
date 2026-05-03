@@ -1,4 +1,4 @@
-"""Unit tests for rice_ML.preprocessing.audio."""
+"""Unit tests for rice_Ml.preprocessing.audio."""
 
 import tempfile
 from pathlib import Path

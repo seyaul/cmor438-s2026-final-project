@@ -20,6 +20,11 @@ def test_import_distances():
     assert callable(taxicab)
 
 
+def test_import_cnn():
+    from rice_Ml.supervised_ml.cnn import CNN
+    assert CNN
+
+
 def test_import_knn_package():
     from rice_Ml.supervised_ml.knn import KNNClassifier, KNNRegressor, KNNRecommender
     assert KNNClassifier
@@ -89,6 +94,21 @@ def test_smoke_regressor_distance():
 # ---------------------------------------------------------------------------
 # KNNRecommender
 # ---------------------------------------------------------------------------
+
+def test_smoke_cnn():
+    from rice_Ml.supervised_ml.cnn import CNN
+
+    X = np.random.default_rng(0).standard_normal((60, 18))
+    y = np.array([0] * 30 + [1] * 30)
+
+    model = CNN(epochs=2, random_state=0).fit(X, y)
+    preds = model.predict(X)
+    proba = model.predict_proba(X)
+
+    assert preds.shape == (60,)
+    assert proba.shape == (60, 2)
+    assert 0.0 <= model.score(X, y) <= 1.0
+
 
 def test_smoke_recommender():
     from rice_Ml.supervised_ml.knn import KNNRecommender
@@ -212,3 +232,84 @@ def test_smoke_kmeans_random_init():
     preds = km.predict(X)
 
     assert preds.shape == (6,)
+    assert set(preds).issubset({0, 1})
+
+
+# ---------------------------------------------------------------------------
+# RandomForest
+# ---------------------------------------------------------------------------
+
+def test_import_random_forest():
+    from rice_Ml.supervised_ml.ensembles import RandomForest
+    assert RandomForest
+
+
+def test_smoke_random_forest():
+    from rice_Ml.supervised_ml.ensembles import RandomForest
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
+    y = np.array([0, 0, 0, 1, 1, 1])
+
+    rf = RandomForest(n_estimators=10, random_state=0).fit(X, y)
+    preds = rf.predict(X)
+    proba = rf.predict_proba(X)
+
+    assert preds.shape == (6,)
+    assert proba.shape == (6, 2)
+    assert 0.0 <= rf.score(X, y) <= 1.0
+
+
+# ---------------------------------------------------------------------------
+# AdaBoost
+# ---------------------------------------------------------------------------
+
+def test_import_adaboost():
+    from rice_Ml.supervised_ml.ensembles import AdaBoost
+    assert AdaBoost
+
+
+def test_smoke_adaboost():
+    from rice_Ml.supervised_ml.ensembles import AdaBoost
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2]])
+    y = np.array([0, 0, 0, 1, 1, 1])
+
+    ab = AdaBoost(n_estimators=10, random_state=0).fit(X, y)
+    preds = ab.predict(X)
+    proba = ab.predict_proba(X)
+
+    assert preds.shape == (6,)
+    assert proba.shape == (6, 2)
+    assert 0.0 <= ab.score(X, y) <= 1.0
+
+
+# ---------------------------------------------------------------------------
+# StackingClassifier
+# ---------------------------------------------------------------------------
+
+def test_import_stacking():
+    from rice_Ml.supervised_ml.ensembles import StackingClassifier
+    assert StackingClassifier
+
+
+def test_smoke_stacking():
+    from rice_Ml.supervised_ml.ensembles import StackingClassifier
+    from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
+    from rice_Ml.supervised_ml.knn import KNNClassifier
+    from rice_Ml.supervised_ml.linear_model import LogisticRegression
+
+    X = np.array([[1.0, 1.0], [1.5, 1.2], [0.8, 1.1], [1.2, 0.9],
+                  [8.0, 8.0], [8.5, 7.8], [7.9, 8.2], [8.2, 8.1]])
+    y = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+
+    stacker = StackingClassifier(
+        estimators=[("dt", DecisionTree(max_depth=2)), ("knn", KNNClassifier(k=2))],
+        meta_estimator=LogisticRegression(n_epochs=200),
+        cv=2,
+    ).fit(X, y)
+
+    preds = stacker.predict(X)
+    assert preds.shape == (8,)
+    assert 0.0 <= stacker.score(X, y) <= 1.0

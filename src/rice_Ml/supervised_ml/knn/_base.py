@@ -24,7 +24,7 @@ def _resolve_metric(metric: str | Callable) -> Callable:
     ----------
     metric : str or callable
         ``"euclidean"`` or ``"taxicab"`` to use the built-ins from
-        :mod:`rice_ML.measures_ml.distances`, or any callable with the
+        :mod:`rice_Ml.measures_ml.distances`, or any callable with the
         signature ``f(u, v) -> float``.
 
     Returns

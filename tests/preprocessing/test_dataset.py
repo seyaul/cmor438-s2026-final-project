@@ -1,4 +1,4 @@
-"""Unit tests for rice_ML.preprocessing.dataset."""
+"""Unit tests for rice_Ml.preprocessing.dataset."""
 
 import tempfile
 from pathlib import Path

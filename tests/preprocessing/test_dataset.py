@@ -1,4 +1,4 @@
-﻿"""Unit tests for rice_ml.preprocessing.dataset."""
+﻿"""Unit tests for rice_ML.preprocessing.dataset."""
 
 import tempfile
 from pathlib import Path
@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from rice_ml.preprocessing.dataset import (
+from rice_ML.preprocessing.dataset import (
     label_frames_midi,
     label_frames_voiced,
     label_frames_frequency,

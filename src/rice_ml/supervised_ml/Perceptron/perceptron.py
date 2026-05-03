@@ -5,9 +5,9 @@
 
 #below 4 should belong to our jupyter notebook? 
 # from sklearn.datasets import load_iris
-# # from rice_ml.supervised_ml.Perceptron import perceptron
-# from rice_ml.preprocessing import train_test_split, standardize
-# from rice_ml.preprocessing import accuracy_score
+# # from rice_ML.supervised_ml.Perceptron import perceptron
+# from rice_ML.preprocessing import train_test_split, standardize
+# from rice_ML.preprocessing import accuracy_score
 
 import matplotlib.pyplot as plt
 

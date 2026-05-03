@@ -2,7 +2,7 @@
 from pathlib import Path
 import numpy as np
 import pytest
-from rice_ml.supervised_ml.linear_model import LinearRegression
+from rice_ML.supervised_ml.linear_model import LinearRegression
 
 def test_normal_equation_perfect_fit():
     X = np.array([[1, 3],
@@ -21,7 +21,7 @@ def test_sgd_converges_to_normal_equation():
     np.random.seed(42)
     X = np.random.randn(100, 3)
     # Scale features to help SGD
-    from rice_ml.preprocessing.scale import StandardScaler
+    from rice_ML.preprocessing.scale import StandardScaler
     scaler = StandardScaler()
     X = scaler.fit_transform(X)
     

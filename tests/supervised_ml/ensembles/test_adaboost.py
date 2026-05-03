@@ -2,7 +2,7 @@
 
 import numpy as np
 import pytest
-from rice_ml.supervised_ml.ensembles.adaboost import AdaBoost
+from rice_ML.supervised_ml.ensembles.adaboost import AdaBoost
 
 
 @pytest.fixture

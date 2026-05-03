@@ -27,7 +27,7 @@ class KNNRegressor(_KNNBase):
         Number of nearest neighbours to consider.
     metric : str or callable, default ``"euclidean"``
         Distance function.  Accepts ``"euclidean"`` or ``"taxicab"`` for the
-        built-ins in :mod:`rice_ml.measures_ml.distances`, or any callable
+        built-ins in :mod:`rice_ML.measures_ml.distances`, or any callable
         with signature ``f(u, v) -> float``.
     weights : {"uniform", "distance"}, default ``"uniform"``
         Weighting strategy for aggregating neighbour targets:
@@ -43,7 +43,7 @@ class KNNRegressor(_KNNBase):
     Examples
     --------
     >>> import numpy as np
-    >>> from rice_ml.supervised_ml.knn.regressor import KNNRegressor
+    >>> from rice_ML.supervised_ml.knn.regressor import KNNRegressor
     >>> X_train = np.array([[0.0], [1.0], [2.0], [3.0]])
     >>> y_train = np.array([0.0, 1.0, 4.0, 9.0])
     >>> reg = KNNRegressor(k=2).fit(X_train, y_train)

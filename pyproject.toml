@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "rice_ml"
+name = "rice_ML"
 version = "0.1.0"
 description = "Rice ML — supervised, unsupervised, preprocessing, and evaluation utilities"
 authors = [{ name = "Seyaul Kim, Hongtao Hu, Nolan", email = "esk8@rice.edu" }]
@@ -32,7 +32,7 @@ data = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/rice_ml"]
+packages = ["src/rice_ML"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

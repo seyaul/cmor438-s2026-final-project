@@ -29,7 +29,7 @@ class KNNRecommender:
         Number of similar users to consult when generating recommendations.
     metric : str or callable, default ``"euclidean"``
         Distance function.  Accepts ``"euclidean"`` or ``"taxicab"`` for the
-        built-ins in :mod:`rice_ml.measures_ml.distances`, or any callable
+        built-ins in :mod:`rice_ML.measures_ml.distances`, or any callable
         with signature ``f(u, v) -> float``.
 
     Attributes
@@ -42,7 +42,7 @@ class KNNRecommender:
     Examples
     --------
     >>> import numpy as np
-    >>> from rice_ml.supervised_ml.knn.recommender import KNNRecommender
+    >>> from rice_ML.supervised_ml.knn.recommender import KNNRecommender
     >>> R = np.array([
     ...     [5, 4, 0, 0],   # user 0
     ...     [5, 5, 0, 0],   # user 1 — very similar to user 0

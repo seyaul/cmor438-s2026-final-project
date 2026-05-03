@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from rice_ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
+from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
 
 class RandomForest:

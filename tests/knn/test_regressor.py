@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from rice_ml.supervised_ml.knn.regressor import KNNRegressor
+from rice_ML.supervised_ml.knn.regressor import KNNRegressor
 
 # ---------------------------------------------------------------------------
 # Fixtures

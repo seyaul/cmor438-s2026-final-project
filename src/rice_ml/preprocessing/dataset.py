@@ -40,7 +40,7 @@ def label_frames_midi(
     frame_times : numpy.ndarray, shape (n_frames,)
         Centre timestamps of each frame in seconds.
     note_events : list of (onset, offset, midi_note) tuples
-        As returned by :func:`~rice_ml.preprocessing.guitarset.get_note_events`.
+        As returned by :func:`~rice_ML.preprocessing.guitarset.get_note_events`.
     silence_label : int, default 0
         Label assigned to silent frames.
 

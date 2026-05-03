@@ -17,7 +17,7 @@ def _require_mirdata() -> None:
     if not _MIRDATA_AVAILABLE:
         raise ImportError(
             "mirdata is required for remote GuitarSet access. "
-            "Install it with: pip install 'rice_ml[data]'"
+            "Install it with: pip install 'rice_ML[data]'"
         )
 
 

@@ -15,7 +15,7 @@ import pytest
 # ---------------------------------------------------------------------------
 
 def test_import_distances():
-    from rice_ML.measures_ml.distances import euclidean, taxicab
+    from rice_Ml.measures_ml.distances import euclidean, taxicab
     assert callable(euclidean)
     assert callable(taxicab)
 
@@ -26,13 +26,13 @@ def test_import_cnn():
 
 
 def test_import_knn_package():
-    from rice_ML.supervised_ml.knn import KNNClassifier, KNNRegressor, KNNRecommender
+    from rice_Ml.supervised_ml.knn import KNNClassifier, KNNRegressor, KNNRecommender
     assert KNNClassifier
     assert KNNRegressor
     assert KNNRecommender
 
 def test_import_perceptron():
-    from rice_ML.supervised_ml.Perceptron.perceptron import Perceptron
+    from rice_Ml.supervised_ml.Perceptron.perceptron import Perceptron
     assert Perceptron
 
 
@@ -41,12 +41,12 @@ def test_import_perceptron():
 # ---------------------------------------------------------------------------
 
 def test_smoke_euclidean():
-    from rice_ML.measures_ml.distances import euclidean
+    from rice_Ml.measures_ml.distances import euclidean
     assert euclidean([0, 0], [3, 4]) == pytest.approx(5.0)
 
 
 def test_smoke_taxicab():
-    from rice_ML.measures_ml.distances import taxicab
+    from rice_Ml.measures_ml.distances import taxicab
     assert taxicab([0, 0], [3, 4]) == pytest.approx(7.0)
 
 
@@ -55,7 +55,7 @@ def test_smoke_taxicab():
 # ---------------------------------------------------------------------------
 
 def test_smoke_classifier():
-    from rice_ML.supervised_ml.knn import KNNClassifier
+    from rice_Ml.supervised_ml.knn import KNNClassifier
 
     X = np.array([[0.0, 0.0], [1.0, 0.0], [5.0, 5.0], [6.0, 5.0]])
     y = np.array([0, 0, 1, 1])
@@ -74,7 +74,7 @@ def test_smoke_classifier():
 # ---------------------------------------------------------------------------
 
 def test_smoke_regressor_uniform():
-    from rice_ML.supervised_ml.knn import KNNRegressor
+    from rice_Ml.supervised_ml.knn import KNNRegressor
 
     X = np.arange(6, dtype=float).reshape(-1, 1)
     y = np.arange(6, dtype=float)
@@ -85,7 +85,7 @@ def test_smoke_regressor_uniform():
 
 
 def test_smoke_regressor_distance():
-    from rice_ML.supervised_ml.knn import KNNRegressor
+    from rice_Ml.supervised_ml.knn import KNNRegressor
 
     X = np.arange(6, dtype=float).reshape(-1, 1)
     y = np.arange(6, dtype=float)
@@ -115,7 +115,7 @@ def test_smoke_cnn():
 
 
 def test_smoke_recommender():
-    from rice_ML.supervised_ml.knn import KNNRecommender
+    from rice_Ml.supervised_ml.knn import KNNRecommender
 
     R = np.array([
         [5.0, 4.0, 0.0, 0.0],

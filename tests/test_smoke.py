@@ -341,7 +341,7 @@ def test_smoke_perceptron():
 
     assert preds.shape == (8,)
     assert set(preds).issubset({-1, 1})
-    assert isinstance(p.mistakes, list)  # records error counts per non-converged epoch
+    assert isinstance(p.mistakes_, list)  # records error counts per non-converged epoch
 
 
 # ---------------------------------------------------------------------------

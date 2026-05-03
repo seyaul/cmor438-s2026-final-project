@@ -1,12 +1,12 @@
 """
-rice_Ml.preprocessing
+rice_ML.preprocessing
 =====================
 
 GuitarSet data loading, feature extraction, and dataset assembly.
 
 Quick start
 -----------
->>> from rice_Ml.preprocessing.dataset import build_dataset
+>>> from rice_ML.preprocessing.dataset import build_dataset
 >>> X, y = build_dataset("recording_hex_cln.wav", "recording.jams", string_idx=0)
 """
 

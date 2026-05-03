@@ -4,12 +4,13 @@ GuitarSet JAMS file parser.
 Loads .jams annotation files (plain JSON) and extracts per-string note events
 and pitch contour data for use in the preprocessing pipeline.
 
-JAMS annotation array layout (confirmed from GuitarSet 0.3.1):
-    indices 0–5   → pitch_contour  (one per string)
-    indices 6–11  → note_midi      (one per string)
-    index   12    → beat_position
-    index   13    → tempo
-    indices 14–15 → chord (instructed, performed)
+JAMS annotation array layout (actual GuitarSet files):
+    indices 0, 2, 4, 6, 8, 10  → pitch_contour  (strings 0–5, data is columnar dict)
+    indices 1, 3, 5, 7, 9, 11  → note_midi       (strings 0–5, data is list of dicts)
+    index   12                  → beat_position
+    index   13                  → tempo
+    indices 14–15               → chord (instructed, performed)
+    index   16                  → key_mode
 """
 
 from __future__ import annotations
@@ -20,8 +21,7 @@ from pathlib import Path
 import numpy as np
 
 _N_STRINGS = 6
-_PITCH_CONTOUR_OFFSET = 0   # pitch_contour annotations start at index 0
-_NOTE_MIDI_OFFSET = 6       # note_midi annotations start at index 6
+# Annotations interleave pitch_contour and note_midi: string i → pc at 2*i, nm at 2*i+1
 
 
 # ---------------------------------------------------------------------------
@@ -123,7 +123,7 @@ def get_note_events(
         If *string_idx* is outside ``[0, 5]``.
     """
     _validate_string_idx(string_idx)
-    annotation = jams["annotations"][_NOTE_MIDI_OFFSET + string_idx]
+    annotation = jams["annotations"][2 * string_idx + 1]  # note_midi for this string
     events = []
     for entry in annotation["data"]:
         onset = float(entry["time"])
@@ -162,14 +162,15 @@ def get_pitch_contour(
         If *string_idx* is outside ``[0, 5]``.
     """
     _validate_string_idx(string_idx)
-    annotation = jams["annotations"][_PITCH_CONTOUR_OFFSET + string_idx]
+    annotation = jams["annotations"][2 * string_idx]  # pitch_contour for this string
     data = annotation["data"]
 
-    times = np.array([float(e["time"]) for e in data], dtype=np.float64)
-    voiced = np.array([bool(e["value"]["voiced"]) for e in data], dtype=bool)
+    # pitch_contour data is a columnar dict: {"time": [...], "value": [...], ...}
+    times = np.array(data["time"], dtype=np.float64)
+    values = data["value"]  # list of {"voiced": bool, "frequency": float, "index": int}
+    voiced = np.array([bool(v["voiced"]) for v in values], dtype=bool)
     frequencies = np.array(
-        [float(e["value"]["frequency"]) if e["value"]["voiced"] else 0.0
-         for e in data],
+        [float(v["frequency"]) if v["voiced"] else 0.0 for v in values],
         dtype=np.float64,
     )
     return times, frequencies, voiced

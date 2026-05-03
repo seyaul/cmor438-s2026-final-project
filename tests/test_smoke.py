@@ -320,53 +320,77 @@ def test_smoke_stacking():
 
 
 # ---------------------------------------------------------------------------
-# DBSCAN
+# Perceptron
 # ---------------------------------------------------------------------------
 
-def test_import_dbscan():
-    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
-    assert DBSCAN
+def test_import_perceptron():
+    from rice_Ml.supervised_ml import Perceptron
+    assert Perceptron
 
 
-def test_smoke_dbscan_two_clusters():
-    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
+def test_smoke_perceptron():
+    from rice_Ml.supervised_ml import Perceptron
 
-    X = np.array([
-        [0.0, 0.0], [0.1, 0.0], [0.0, 0.1], [0.1, 0.1],
-        [5.0, 5.0], [5.1, 5.0], [5.0, 5.1], [5.1, 5.1],
-    ])
+    X = np.array([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0],
+                  [5.0, 5.0], [5.0, 6.0], [6.0, 5.0], [6.0, 6.0]])
+    y = np.array([-1, -1, -1, -1, 1, 1, 1, 1])
 
-    db = DBSCAN(eps=0.3, min_samples=2).fit(X)
+    p = Perceptron(eta=0.1, epochs=50)
+    p.train(X, y)
+    preds = p.predict(X)
 
-    assert db.labels_.shape == (8,)
-    assert db.n_clusters_ == 2
-    assert -1 not in db.labels_
-
-
-def test_smoke_dbscan_detects_noise():
-    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
-
-    X = np.array([
-        [0.0, 0.0], [0.1, 0.0], [0.0, 0.1],
-        [5.0, 5.0], [5.1, 5.0], [5.0, 5.1],
-        [99.0, 99.0],
-    ])
-
-    db = DBSCAN(eps=0.3, min_samples=2).fit(X)
-
-    assert db.labels_[-1] == -1
-    assert db.n_clusters_ == 2
+    assert preds.shape == (8,)
+    assert set(preds).issubset({-1, 1})
+    assert isinstance(p.mistakes_, list)  # records error counts per non-converged epoch
 
 
-def test_smoke_dbscan_fit_predict():
-    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
+# ---------------------------------------------------------------------------
+# MLP
+# ---------------------------------------------------------------------------
 
-    X = np.array([
-        [0.0, 0.0], [0.1, 0.0], [0.0, 0.1],
-        [5.0, 5.0], [5.1, 5.0], [5.0, 5.1],
-    ])
+def test_import_mlp():
+    from rice_Ml.supervised_ml import MLP
+    assert MLP
 
-    labels = DBSCAN(eps=0.3, min_samples=2).fit_predict(X)
 
-    assert labels.shape == (6,)
-    assert set(labels).issubset({0, 1})
+def test_smoke_mlp_binary():
+    from rice_Ml.supervised_ml import MLP
+    from rice_Ml.activations import ReLU, Sigmoid
+    from rice_Ml.loss import BinaryCrossEntropy
+    from rice_Ml.optimizers import SGD
+
+    rng = np.random.default_rng(0)
+    X = rng.standard_normal((60, 4))
+    y = (X[:, 0] + X[:, 1] > 0).astype(float)
+
+    model = MLP(
+        hidden_layers=[8], activation=ReLU(), output_activation=Sigmoid(),
+        loss=BinaryCrossEntropy(), optimizer=SGD(learning_rate=0.1),
+        n_epochs=5, random_state=0,
+    ).fit(X, y)
+
+    preds = model.predict(X)
+    assert preds.shape == (60, 1)
+    assert len(model.loss_history_) == 5
+
+
+def test_smoke_mlp_multiclass():
+    from rice_Ml.supervised_ml import MLP
+    from rice_Ml.activations import ReLU, Softmax
+    from rice_Ml.loss import MeanSquaredError
+    from rice_Ml.optimizers import SGD
+
+    rng = np.random.default_rng(0)
+    X = rng.standard_normal((30, 4))
+    # 3-class one-hot labels
+    y = np.eye(3)[rng.integers(0, 3, size=30)]
+
+    model = MLP(
+        hidden_layers=[8], activation=ReLU(), output_activation=ReLU(),
+        loss=MeanSquaredError(), optimizer=SGD(learning_rate=0.01),
+        n_epochs=5, random_state=0,
+    ).fit(X, y)
+
+    preds = model.predict(X)
+    assert preds.shape == (30, 3)
+    assert len(model.loss_history_) == 5

@@ -1,4 +1,4 @@
-"""Stacking ensemble: combines base estimator predictions via a meta-learner."""
+﻿"""Stacking ensemble: combines base estimator predictions via a meta-learner."""
 
 import numpy as np
 from rice_Ml.model_selection.split import KFold

@@ -1,4 +1,4 @@
-"""
+﻿"""
 K-Nearest Neighbours user-based collaborative filtering recommender.
 """
 
@@ -29,7 +29,7 @@ class KNNRecommender:
         Number of similar users to consult when generating recommendations.
     metric : str or callable, default ``"euclidean"``
         Distance function.  Accepts ``"euclidean"`` or ``"taxicab"`` for the
-        built-ins in :mod:`rice_Ml.measures_ml.distances`, or any callable
+        built-ins in :mod:`rice_ML.measures_ml.distances`, or any callable
         with signature ``f(u, v) -> float``.
 
     Attributes

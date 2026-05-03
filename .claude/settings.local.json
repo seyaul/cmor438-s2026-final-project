@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pip install pytest -q)",
+      "Bash(python -m pytest tests/perceptron_tests/test_perceptron.py -v)"
+    ]
+  }
+}

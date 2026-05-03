@@ -1,5 +1,5 @@
-"""
-Distance metrics for rice_Ml.
+﻿"""
+Distance metrics for rice_ML.
 
 All functions accept array-like inputs and return a non-negative float.
 Inputs are validated eagerly so callers get clear error messages.

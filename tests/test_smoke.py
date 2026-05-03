@@ -132,34 +132,6 @@ def test_smoke_recommender():
     assert len(neighbours) == 1
     assert isinstance(rating, float)
 
-<<<<<<< HEAD
-# ---------------------------------------------------------------------------
-# Perceptron training smoke test
-# ---------------------------------------------------------------------------
-
-def test_import_decision_tree():
-    from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
-    assert DecisionTree
-
-
-# ---------------------------------------------------------------------------
-# DecisionTree smoke test — TODO: fill in once fit/predict are implemented
-# ---------------------------------------------------------------------------
-
-def test_smoke_decision_tree_train():
-    raise NotImplementedError
-
-
-def test_smoke_perceptron_train():
-    from rice_ML.supervised_ml.Perceptron.perceptron import Perceptron
-
-    X = ([1.0, 1.0],[2.0, 1.0],[3.0, 2.0],[1.0, 4.0],[5.0, 2.0] )
-    y = ([-1,1,1,-1,-1])
-
-    per = Perceptron()
-    preds = per.train(X,y)
-    assert preds.predict(np.array([[1.0,1.0],[2.0,4.0]])).shape == (2,)
-=======
 
 # ---------------------------------------------------------------------------
 # DecisionTree
@@ -345,4 +317,3 @@ def test_smoke_stacking():
     preds = stacker.predict(X)
     assert preds.shape == (8,)
     assert 0.0 <= stacker.score(X, y) <= 1.0
->>>>>>> e5b1468b2b571dff9dbb091ff83d65ca7c970320

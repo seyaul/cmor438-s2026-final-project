@@ -100,7 +100,7 @@ fitzsimmons-cmor-438/
 ├── requirements.txt
 ├── pyproject.toml
 ├── src/
-│   └── rice_ml/
+│   └── rice_ML/
 │       ├── __init__.py
 │       ├── supervised_learning/
 │       │   ├── __init__.py
@@ -156,7 +156,7 @@ fitzsimmons-cmor-438/
 │           ├── <dataset>
 │           └── <algorithm>_from_scratch.ipynb
 ├── src/
-│   └── rice_Ml/
+│   └── rice_ML/
 │       ├── __init__.py
 │       ├── metrics.py
 │       ├── preprocessing/
@@ -176,9 +176,9 @@ fitzsimmons-cmor-438/
 
 ## Adding a New Algorithm
 
-1. **Implement** the algorithm as a class in the appropriate `src/rice_Ml/supervised_ml/` or `src/rice_Ml/unsupervised_ml/` subdirectory.
+1. **Implement** the algorithm as a class in the appropriate `src/rice_ML/supervised_ml/` or `src/rice_ML/unsupervised_ml/` subdirectory.
 2. **Export** it from the relevant `__init__.py`.
-3. **Write a test file** mirroring the source layout — e.g. `src/rice_Ml/supervised_ml/knn/` → `tests/supervised_ml/knn/test_knn.py`. Cover fit, predict, and edge cases.
+3. **Write a test file** mirroring the source layout — e.g. `src/rice_ML/supervised_ml/knn/` → `tests/supervised_ml/knn/test_knn.py`. Cover fit, predict, and edge cases.
 4. **Add an example** at `examples/<Supervised or Unsupervised> Learning/<Algorithm>/` with:
    - `README.md` explaining the algorithm and how to run the notebook
    - A dataset file

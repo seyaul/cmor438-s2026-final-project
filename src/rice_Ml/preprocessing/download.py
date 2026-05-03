@@ -1,4 +1,4 @@
-"""GuitarSet access via mirdata.
+﻿"""GuitarSet access via mirdata.
 
 Provides a thin wrapper around the mirdata GuitarSet loader so that audio and
 annotations can be loaded directly without managing local file paths manually.
@@ -17,7 +17,7 @@ def _require_mirdata() -> None:
     if not _MIRDATA_AVAILABLE:
         raise ImportError(
             "mirdata is required for remote GuitarSet access. "
-            "Install it with: pip install 'rice_Ml[data]'"
+            "Install it with: pip install 'rice_ML[data]'"
         )
 
 

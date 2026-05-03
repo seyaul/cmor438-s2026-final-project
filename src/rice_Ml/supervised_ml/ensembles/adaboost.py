@@ -1,4 +1,4 @@
-"""AdaBoost classifier using decision stumps as weak learners (SAMME algorithm)."""
+﻿"""AdaBoost classifier using decision stumps as weak learners (SAMME algorithm)."""
 
 import numpy as np
 

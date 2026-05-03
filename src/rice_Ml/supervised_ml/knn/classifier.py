@@ -1,4 +1,4 @@
-"""
+﻿"""
 K-Nearest Neighbours classifier.
 """
 
@@ -26,7 +26,7 @@ class KNNClassifier(_KNNBase):
         Number of nearest neighbours to consider.
     metric : str or callable, default ``"euclidean"``
         Distance function.  Accepts ``"euclidean"`` or ``"taxicab"`` for the
-        built-ins in :mod:`rice_Ml.measures_ml.distances`, or any callable
+        built-ins in :mod:`rice_ML.measures_ml.distances`, or any callable
         with signature ``f(u, v) -> float``.
 
     Attributes

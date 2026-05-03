@@ -1,4 +1,4 @@
-"""Unit tests for KNNRegressor."""
+﻿"""Unit tests for KNNRegressor."""
 
 import numpy as np
 import pytest

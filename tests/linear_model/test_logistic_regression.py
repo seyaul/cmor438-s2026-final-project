@@ -1,4 +1,4 @@
-import numpy as np
+﻿import numpy as np
 import pytest
 from rice_Ml.supervised_ml.linear_model import LogisticRegression
 from rice_Ml.metrics.classification import accuracy

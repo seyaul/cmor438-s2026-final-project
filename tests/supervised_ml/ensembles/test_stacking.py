@@ -1,4 +1,4 @@
-"""Unit tests for StackingClassifier."""
+﻿"""Unit tests for StackingClassifier."""
 
 import numpy as np
 import pytest

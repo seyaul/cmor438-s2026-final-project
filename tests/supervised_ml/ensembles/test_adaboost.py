@@ -1,4 +1,4 @@
-"""Unit tests for AdaBoost."""
+﻿"""Unit tests for AdaBoost."""
 
 import numpy as np
 import pytest

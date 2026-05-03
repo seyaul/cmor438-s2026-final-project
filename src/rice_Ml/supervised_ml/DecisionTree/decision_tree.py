@@ -62,9 +62,8 @@ class DecisionTree:
         self.criterion = criterion
         self.max_features = max_features
         self.random_state = random_state
-        # initialised here so _best_split is callable before fit() (e.g. in tests)
         self._rng = np.random.default_rng(random_state)
-        self._n_features_split = None  # resolved at fit() time once n_features is known
+        self._n_features_split = None
 
     def fit(self, X, y):
         """Build the decision tree on (X, y). Returns self."""

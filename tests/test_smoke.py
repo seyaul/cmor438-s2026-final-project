@@ -181,6 +181,61 @@ def test_smoke_decision_tree_max_depth():
 
 
 # ---------------------------------------------------------------------------
+# KMeans
+# ---------------------------------------------------------------------------
+
+def test_import_kmeans():
+    from rice_Ml.unsupervised_ml.KMeans import KMeans
+    assert KMeans
+
+
+def test_smoke_kmeans_two_clusters():
+    from rice_Ml.unsupervised_ml.KMeans import KMeans
+
+    X = np.array([
+        [1.0, 1.0], [1.2, 0.9], [0.9, 1.1],
+        [8.0, 8.0], [8.1, 7.9], [7.9, 8.1],
+    ])
+
+    km = KMeans(k=2).fit(X)
+    preds = km.predict(X)
+
+    assert preds.shape == (6,)
+    assert set(preds).issubset({0, 1})
+    assert km.centroids_.shape == (2, 2)
+    assert km.inertia_ >= 0.0
+
+
+def test_smoke_kmeans_fit_predict():
+    from rice_Ml.unsupervised_ml.KMeans import KMeans
+
+    X = np.array([
+        [1.0, 1.0], [1.2, 0.9], [0.9, 1.1],
+        [8.0, 8.0], [8.1, 7.9], [7.9, 8.1],
+    ])
+
+    labels = KMeans(k=2).fit_predict(X)
+
+    assert labels.shape == (6,)
+    assert set(labels).issubset({0, 1})
+
+
+def test_smoke_kmeans_random_init():
+    from rice_Ml.unsupervised_ml.KMeans import KMeans
+
+    X = np.array([
+        [1.0, 1.0], [1.2, 0.9], [0.9, 1.1],
+        [8.0, 8.0], [8.1, 7.9], [7.9, 8.1],
+    ])
+
+    km = KMeans(k=2, init="random").fit(X)
+    preds = km.predict(X)
+
+    assert preds.shape == (6,)
+    assert set(preds).issubset({0, 1})
+
+
+# ---------------------------------------------------------------------------
 # RandomForest
 # ---------------------------------------------------------------------------
 

@@ -31,6 +31,10 @@ def test_import_knn_package():
     assert KNNRegressor
     assert KNNRecommender
 
+def test_import_perceptron():
+    from rice_Ml.supervised_ml.Perceptron.perceptron import Perceptron
+    assert Perceptron
+
 
 # ---------------------------------------------------------------------------
 # distances

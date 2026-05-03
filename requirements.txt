@@ -1,0 +1,17 @@
+numpy>=1.26
+pandas>=2.2
+matplotlib>=3.8
+scipy>=1.13
+
+# test
+pytest>=8.0
+pytest-cov
+
+# dev
+ruff
+black
+mypy
+ipython
+
+# optional: GuitarSet data loading
+# mirdata>=0.3

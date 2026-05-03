@@ -11,6 +11,21 @@ the epoch limit and converged_ will be False.
 
 import numpy as np
 
+<<<<<<< HEAD
+=======
+#do we need pandas currently?
+# import pandas as pd
+
+#below 4 should belong to our jupyter notebook? 
+# from sklearn.datasets import load_iris
+# # from rice_ML.supervised_ml.Perceptron import perceptron
+# from rice_ML.preprocessing import train_test_split, standardize
+# from rice_ML.preprocessing import accuracy_score
+
+import matplotlib.pyplot as plt
+
+
+>>>>>>> e5b1468b2b571dff9dbb091ff83d65ca7c970320
 class Perceptron(object):
     """
     single-layer perceptron for binary classification.

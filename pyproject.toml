@@ -27,12 +27,16 @@ test = [
     "pytest>=8.0",
     "pytest-cov",
 ]
+data = [
+    "mirdata>=0.3",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/rice_ML"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+addopts = "--import-mode=importlib"
 
 [tool.ruff]
 src = ["src"]

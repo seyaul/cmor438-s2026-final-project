@@ -2,7 +2,7 @@
 
 import numpy as np
 
-from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
 
 class AdaBoost:

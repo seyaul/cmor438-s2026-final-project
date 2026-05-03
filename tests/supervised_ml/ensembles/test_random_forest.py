@@ -2,7 +2,7 @@
 
 import numpy as np
 import pytest
-from rice_ML.supervised_ml.ensembles.random_forest import RandomForest
+from rice_Ml.supervised_ml.ensembles.random_forest import RandomForest
 
 
 # ---------------------------------------------------------------------------

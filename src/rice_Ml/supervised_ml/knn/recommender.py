@@ -42,7 +42,7 @@ class KNNRecommender:
     Examples
     --------
     >>> import numpy as np
-    >>> from rice_ML.supervised_ml.knn.recommender import KNNRecommender
+    >>> from rice_Ml.supervised_ml.knn.recommender import KNNRecommender
     >>> R = np.array([
     ...     [5, 4, 0, 0],   # user 0
     ...     [5, 5, 0, 0],   # user 1 — very similar to user 0

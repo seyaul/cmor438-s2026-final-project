@@ -27,4 +27,4 @@ jobs:
           pip install ".[test]"
 
       - name: Run tests with coverage
-        run: pytest --cov=rice_ML --cov-report=term-missing
+        run: pytest --cov=rice_Ml --cov-report=term-missing

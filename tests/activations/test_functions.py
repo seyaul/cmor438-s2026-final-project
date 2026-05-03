@@ -1,6 +1,6 @@
 ﻿import numpy as np
 import pytest
-from rice_ML.activations import Sigmoid, ReLU, Tanh, Linear
+from rice_Ml.activations import Sigmoid, ReLU, Tanh, Linear
 
 def test_sigmoid_output():
     sig = Sigmoid()

@@ -6,12 +6,12 @@ GuitarSet data loading, feature extraction, and dataset assembly.
 
 Quick start — from local files
 -------------------------------
->>> from rice_ML.preprocessing import build_dataset
+>>> from rice_Ml.preprocessing import build_dataset
 >>> X, y = build_dataset("recording_hex_cln.wav", "recording.jams", string_idx=0)
 
 Quick start — via mirdata (no local files needed)
 -------------------------------------------------
->>> from rice_ML.preprocessing import get_guitarset, build_dataset_from_track, load_dataset
+>>> from rice_Ml.preprocessing import get_guitarset, build_dataset_from_track, load_dataset
 >>> gs = get_guitarset(download=True)           # downloads once to ~/.mirdata/guitarset/
 >>> track = gs.track("03_BN3-119-G_solo")
 >>> X, y = build_dataset_from_track(track, string_idx=0)

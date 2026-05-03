@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 import scipy.io.wavfile as wav_io
 
-from rice_ML.preprocessing.audio import (
+from rice_Ml.preprocessing.audio import (
     load_wav,
     extract_string,
     frame_signal,

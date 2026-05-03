@@ -6,7 +6,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from rice_ML.preprocessing.dataset import (
+from rice_Ml.preprocessing.dataset import (
     label_frames_midi,
     label_frames_voiced,
     label_frames_frequency,

@@ -39,7 +39,7 @@ class KNNClassifier(_KNNBase):
     Examples
     --------
     >>> import numpy as np
-    >>> from rice_ML.supervised_ml.knn.classifier import KNNClassifier
+    >>> from rice_Ml.supervised_ml.knn.classifier import KNNClassifier
     >>> X_train = np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0], [5.0, 5.0]])
     >>> y_train = np.array([0, 0, 0, 1])
     >>> clf = KNNClassifier(k=3).fit(X_train, y_train)

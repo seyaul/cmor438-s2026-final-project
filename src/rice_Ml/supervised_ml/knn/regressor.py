@@ -43,7 +43,7 @@ class KNNRegressor(_KNNBase):
     Examples
     --------
     >>> import numpy as np
-    >>> from rice_ML.supervised_ml.knn.regressor import KNNRegressor
+    >>> from rice_Ml.supervised_ml.knn.regressor import KNNRegressor
     >>> X_train = np.array([[0.0], [1.0], [2.0], [3.0]])
     >>> y_train = np.array([0.0, 1.0, 4.0, 9.0])
     >>> reg = KNNRegressor(k=2).fit(X_train, y_train)

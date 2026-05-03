@@ -258,3 +258,56 @@ def test_smoke_stacking():
     preds = stacker.predict(X)
     assert preds.shape == (8,)
     assert 0.0 <= stacker.score(X, y) <= 1.0
+
+
+# ---------------------------------------------------------------------------
+# DBSCAN
+# ---------------------------------------------------------------------------
+
+def test_import_dbscan():
+    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
+    assert DBSCAN
+
+
+def test_smoke_dbscan_two_clusters():
+    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
+
+    X = np.array([
+        [0.0, 0.0], [0.1, 0.0], [0.0, 0.1], [0.1, 0.1],
+        [5.0, 5.0], [5.1, 5.0], [5.0, 5.1], [5.1, 5.1],
+    ])
+
+    db = DBSCAN(eps=0.3, min_samples=2).fit(X)
+
+    assert db.labels_.shape == (8,)
+    assert db.n_clusters_ == 2
+    assert -1 not in db.labels_
+
+
+def test_smoke_dbscan_detects_noise():
+    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
+
+    X = np.array([
+        [0.0, 0.0], [0.1, 0.0], [0.0, 0.1],
+        [5.0, 5.0], [5.1, 5.0], [5.0, 5.1],
+        [99.0, 99.0],
+    ])
+
+    db = DBSCAN(eps=0.3, min_samples=2).fit(X)
+
+    assert db.labels_[-1] == -1
+    assert db.n_clusters_ == 2
+
+
+def test_smoke_dbscan_fit_predict():
+    from rice_Ml.unsupervised_ml.DBSCAN import DBSCAN
+
+    X = np.array([
+        [0.0, 0.0], [0.1, 0.0], [0.0, 0.1],
+        [5.0, 5.0], [5.1, 5.0], [5.0, 5.1],
+    ])
+
+    labels = DBSCAN(eps=0.3, min_samples=2).fit_predict(X)
+
+    assert labels.shape == (6,)
+    assert set(labels).issubset({0, 1})

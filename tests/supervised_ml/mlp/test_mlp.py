@@ -1,9 +1,9 @@
 import numpy as np
 import pytest
-from rice_ML.neural_networks.mlp import MLP
-from rice_ML.activations import ReLU, Linear, Sigmoid
-from rice_ML.loss import MeanSquaredError, BinaryCrossEntropy
-from rice_ML.optimizers import SGD
+from rice_Ml.supervised_ml.mlp.mlp import MLP
+from rice_Ml.activations import ReLU, Linear, Sigmoid
+from rice_Ml.loss import MeanSquaredError, BinaryCrossEntropy
+from rice_Ml.optimizers import SGD
 
 class TestMLP:
     def test_mlp_regression_xor(self):
@@ -11,20 +11,20 @@ class TestMLP:
         y = np.array([[0], [1], [1], [0]])
 
         model = MLP(
-            hidden_layers=[8],                     # more capacity
+            hidden_layers=[8],
             activation=ReLU(),
             output_activation=Sigmoid(),
             loss=BinaryCrossEntropy(),
-            optimizer=SGD(learning_rate=0.5, momentum=0.9),  # momentum helps escape plateaus
+            optimizer=SGD(learning_rate=0.5, momentum=0.9),
             n_epochs=2000,
-            kernel_initializer='he_uniform',        # ReLU likes He
+            kernel_initializer='he_uniform',
             random_state=42
         )
         model.fit(X, y)
         y_pred = model.predict(X)
         y_pred_labels = (y_pred > 0.5).astype(int)
         accuracy = np.mean(y_pred_labels == y)
-        assert accuracy == 1.0              
+        assert accuracy == 1.0
 
     def test_mlp_binary_classification(self):
         """MLP can classify simple linearly separable data."""
@@ -90,7 +90,7 @@ class TestMLP:
             loss=BinaryCrossEntropy(),
             optimizer=SGD(learning_rate=0.1),
             n_epochs=500,
-            batch_size=None,               # full batch
+            batch_size=None,
             kernel_initializer='xavier_uniform',
             random_state=42
         )
@@ -116,9 +116,9 @@ class TestMLP:
         model.fit(X, y)
         score = model.score(X, y)
         assert score > 0.85
-            
+
     def test_initializer_passed_to_layers(self):
-        from rice_ML.neural_networks.initializers import Zeros
+        from rice_Ml.supervised_ml.mlp.initializers import Zeros
         X = np.random.randn(10, 4)
         y = np.random.randn(10, 1)
         model = MLP(
@@ -131,6 +131,5 @@ class TestMLP:
             n_epochs=1
         )
         model.fit(X, y)
-        # First hidden layer weights should be zeros
         W = model.layers[0].parameters()['W']
         assert np.all(W == 0.0)

@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
-from rice_ML.neural_networks.base import BaseNeuralNetwork
-from rice_ML.neural_networks.layers import Dense
-from rice_ML.activations import Linear
+from rice_Ml.supervised_ml.mlp.base import BaseNeuralNetwork
+from rice_Ml.supervised_ml.mlp.layers import Dense
+from rice_Ml.activations import Linear
 
 class MinimalNN(BaseNeuralNetwork):
     def _build(self, input_shape):
@@ -12,7 +12,6 @@ class MinimalNN(BaseNeuralNetwork):
     def fit(self, X, y):
         self._build(X.shape)
         self._is_built = True
-        # Forward pass to trigger lazy layer building
         _ = self.forward(X)
         return self
 
@@ -30,7 +29,7 @@ class TestBaseNeuralNetwork:
     def test_parameters_dict(self):
         X = np.random.randn(10, 3)
         model = MinimalNN()
-        model.fit(X, np.zeros((10, 1)))   # provide dummy y
+        model.fit(X, np.zeros((10, 1)))
         params = model.parameters()
         assert 'layer_0' in params
         assert 'W' in params['layer_0']

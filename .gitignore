@@ -32,3 +32,10 @@ Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
+
+# GuitarSet data — large files, not for git
+data/guitarset/
+data/*.zip
+data/*.csv
+data/*.csv.gz
+examples/**/*.npz

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
-from rice_ML.neural_networks.layers import Dense
-from rice_ML.activations import Sigmoid, ReLU, Linear
+from rice_Ml.supervised_ml.mlp.layers import Dense
+from rice_Ml.activations import Sigmoid, ReLU, Linear
 
 class TestDenseLayer:
     def test_forward_shape(self):
@@ -20,7 +20,7 @@ class TestDenseLayer:
     def test_parameter_shapes(self):
         X = np.random.randn(10, 5)
         layer = Dense(units=3)
-        layer.forward(X)  # builds
+        layer.forward(X)
         params = layer.parameters()
         assert params['W'].shape == (5, 3)
         assert params['b'].shape == (1, 3)
@@ -42,18 +42,15 @@ class TestDenseLayer:
         layer = Dense(units=2, activation=Linear())
         layer.forward(X)
 
-        # Use sum of outputs as loss (no scaling)
         def loss_fn():
             out = layer.forward(X)
             return np.sum(out)
 
-        # For sum loss, dA = np.ones_like(out)
         out = layer.forward(X)
         dA = np.ones_like(out)
         layer.backward(dA)
         grad_W_analytic = layer.gradients()['W']
 
-        # Numerical gradient
         eps = 1e-5
         grad_W_numeric = np.zeros_like(grad_W_analytic)
         W = layer.parameters()['W']
@@ -64,7 +61,8 @@ class TestDenseLayer:
                 W[i, j] -= 2 * eps
                 loss_minus = loss_fn()
                 W[i, j] += eps
-                grad_W_numeric[i, j] = (loss_plus - loss_minus) / (2 * eps)
+                # Dense.backward divides by batch_size internally, so we match d(L/n)/dW
+                grad_W_numeric[i, j] = (loss_plus - loss_minus) / (2 * eps) / X.shape[0]
 
         np.testing.assert_allclose(grad_W_analytic, grad_W_numeric, rtol=1e-4, atol=1e-6)
 
@@ -91,7 +89,8 @@ class TestDenseLayer:
             b[0, j] -= 2 * eps
             loss_minus = loss_fn()
             b[0, j] += eps
-            grad_b_numeric[0, j] = (loss_plus - loss_minus) / (2 * eps)
+            # Dense.backward divides by batch_size internally, so we match d(L/n)/db
+            grad_b_numeric[0, j] = (loss_plus - loss_minus) / (2 * eps) / X.shape[0]
 
         np.testing.assert_allclose(grad_b_analytic, grad_b_numeric, rtol=1e-4, atol=1e-6)
 
@@ -102,13 +101,12 @@ class TestDenseLayer:
         dA = np.random.randn(10, 3)
         dX = layer.backward(dA)
         assert dX.shape == (10, 5)
-        # Gradients should exist and be finite
         grads = layer.gradients()
         assert np.all(np.isfinite(grads['W']))
         assert np.all(np.isfinite(grads['b']))
 
     def test_custom_initializer(self):
-        from rice_ML.neural_networks.initializers import Ones
+        from rice_Ml.supervised_ml.mlp.initializers import Ones
         X = np.random.randn(10, 5)
         layer = Dense(units=3, kernel_initializer=Ones())
         layer.forward(X)

@@ -258,3 +258,80 @@ def test_smoke_stacking():
     preds = stacker.predict(X)
     assert preds.shape == (8,)
     assert 0.0 <= stacker.score(X, y) <= 1.0
+
+
+# ---------------------------------------------------------------------------
+# Perceptron
+# ---------------------------------------------------------------------------
+
+def test_import_perceptron():
+    from rice_Ml.supervised_ml import Perceptron
+    assert Perceptron
+
+
+def test_smoke_perceptron():
+    from rice_Ml.supervised_ml import Perceptron
+
+    X = np.array([[0.0, 0.0], [0.0, 1.0], [1.0, 0.0], [1.0, 1.0],
+                  [5.0, 5.0], [5.0, 6.0], [6.0, 5.0], [6.0, 6.0]])
+    y = np.array([-1, -1, -1, -1, 1, 1, 1, 1])
+
+    p = Perceptron(eta=0.1, epochs=50)
+    p.train(X, y)
+    preds = p.predict(X)
+
+    assert preds.shape == (8,)
+    assert set(preds).issubset({-1, 1})
+    assert isinstance(p.mistakes, list)  # records error counts per non-converged epoch
+
+
+# ---------------------------------------------------------------------------
+# MLP
+# ---------------------------------------------------------------------------
+
+def test_import_mlp():
+    from rice_Ml.supervised_ml import MLP
+    assert MLP
+
+
+def test_smoke_mlp_binary():
+    from rice_Ml.supervised_ml import MLP
+    from rice_Ml.activations import ReLU, Sigmoid
+    from rice_Ml.loss import BinaryCrossEntropy
+    from rice_Ml.optimizers import SGD
+
+    rng = np.random.default_rng(0)
+    X = rng.standard_normal((60, 4))
+    y = (X[:, 0] + X[:, 1] > 0).astype(float)
+
+    model = MLP(
+        hidden_layers=[8], activation=ReLU(), output_activation=Sigmoid(),
+        loss=BinaryCrossEntropy(), optimizer=SGD(learning_rate=0.1),
+        n_epochs=5, random_state=0,
+    ).fit(X, y)
+
+    preds = model.predict(X)
+    assert preds.shape == (60, 1)
+    assert len(model.loss_history_) == 5
+
+
+def test_smoke_mlp_multiclass():
+    from rice_Ml.supervised_ml import MLP
+    from rice_Ml.activations import ReLU, Softmax
+    from rice_Ml.loss import MeanSquaredError
+    from rice_Ml.optimizers import SGD
+
+    rng = np.random.default_rng(0)
+    X = rng.standard_normal((30, 4))
+    # 3-class one-hot labels
+    y = np.eye(3)[rng.integers(0, 3, size=30)]
+
+    model = MLP(
+        hidden_layers=[8], activation=ReLU(), output_activation=ReLU(),
+        loss=MeanSquaredError(), optimizer=SGD(learning_rate=0.01),
+        n_epochs=5, random_state=0,
+    ).fit(X, y)
+
+    preds = model.predict(X)
+    assert preds.shape == (30, 3)
+    assert len(model.loss_history_) == 5

@@ -2,13 +2,13 @@ import numpy as np
 from typing import Union, Optional
 from abc import ABC, abstractmethod
 
-from ..activations import Activation, Linear
+from ...activations import Activation, Linear
 from .initializers import (
     Initializer,
     XavierUniform, XavierNormal,
     HeUniform, HeNormal,
     RandomNormal, RandomUniform,
-    Zeros, Ones
+    Zeros, Ones,
 )
 
 
@@ -56,7 +56,6 @@ class Dense(Layer):
         self.units = units
         self.activation = activation or Linear()
 
-        # Resolve string alias to initializer instance
         if isinstance(kernel_initializer, str):
             if kernel_initializer not in self._INITIALIZERS:
                 raise ValueError(f"Unknown initializer: {kernel_initializer}")

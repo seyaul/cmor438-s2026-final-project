@@ -1,6 +1,7 @@
 from abc import abstractmethod
 import numpy as np
-from ..base.base_model import BaseModel
+from ...base.base_model import BaseModel
+
 
 class BaseNeuralNetwork(BaseModel):
     def __init__(self):
@@ -22,7 +23,7 @@ class BaseNeuralNetwork(BaseModel):
             grad = layer.backward(grad)
 
     def parameters(self) -> dict:
-        """Return all trainable parameters as a dict {layer_name: {param_name: array}}."""
+        """Return all trainable parameters as {layer_name: {param_name: array}}."""
         params = {}
         for i, layer in enumerate(self.layers):
             layer_params = layer.parameters()

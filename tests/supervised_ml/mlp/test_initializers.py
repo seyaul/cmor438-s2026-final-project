@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from rice_ML.neural_networks.initializers import (
+from rice_Ml.supervised_ml.mlp.initializers import (
     Zeros, Ones, RandomNormal, RandomUniform,
     XavierUniform, XavierNormal, HeUniform, HeNormal
 )

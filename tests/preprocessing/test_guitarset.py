@@ -20,13 +20,29 @@ from rice_Ml.preprocessing.guitarset import (
 # Minimal JAMS fixture builder
 # ---------------------------------------------------------------------------
 
+def _make_pitch_contour_data(entries: list[dict]) -> dict:
+    """Convert list-of-dicts contour entries into the real columnar dict format."""
+    if not entries:
+        return {"time": [], "duration": [], "value": [], "confidence": []}
+    return {
+        "time": [e["time"] for e in entries],
+        "duration": [e.get("duration", 0.0) for e in entries],
+        "value": [e["value"] for e in entries],
+        "confidence": [e.get("confidence") for e in entries],
+    }
+
+
 def _make_jams(
     duration: float = 10.0,
     tempo: float = 120.0,
     note_events_per_string: list[list[dict]] | None = None,
     pitch_contour_per_string: list[list[dict]] | None = None,
 ) -> dict:
-    """Return a minimal JAMS dict with 6 pitch_contour + 6 note_midi annotations."""
+    """Return a minimal JAMS dict with interleaved pitch_contour/note_midi annotations.
+
+    Real layout: pc[0], nm[0], pc[1], nm[1], ..., pc[5], nm[5], beat, tempo, ...
+    pitch_contour data is a columnar dict; note_midi data is a list of dicts.
+    """
     n_strings = 6
     if note_events_per_string is None:
         note_events_per_string = [[] for _ in range(n_strings)]
@@ -34,21 +50,19 @@ def _make_jams(
         pitch_contour_per_string = [[] for _ in range(n_strings)]
 
     annotations = []
-    # pitch_contour: indices 0–5
+    # Interleaved: pitch_contour then note_midi for each string
     for s in range(n_strings):
         annotations.append({
             "namespace": "pitch_contour",
-            "data": pitch_contour_per_string[s],
+            "data": _make_pitch_contour_data(pitch_contour_per_string[s]),
             "time": 0, "duration": duration, "sandbox": {}, "annotation_metadata": {},
         })
-    # note_midi: indices 6–11
-    for s in range(n_strings):
         annotations.append({
             "namespace": "note_midi",
             "data": note_events_per_string[s],
             "time": 0, "duration": duration, "sandbox": {}, "annotation_metadata": {},
         })
-    # tempo: index 12
+    # tempo
     annotations.append({
         "namespace": "tempo",
         "data": [{"time": 0, "duration": duration, "value": tempo, "confidence": 1.0}],

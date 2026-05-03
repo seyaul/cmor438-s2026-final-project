@@ -1,8 +1,8 @@
-"""Random Forest classifier via bootstrap aggregation of decision trees."""
+﻿"""Random Forest classifier via bootstrap aggregation of decision trees."""
 
 import numpy as np
 
-from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
+from rice_ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
 
 class RandomForest:

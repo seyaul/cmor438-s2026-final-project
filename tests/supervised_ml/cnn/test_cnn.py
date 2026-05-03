@@ -1,10 +1,10 @@
-"""
+﻿"""
 Unit tests for CNN and its layer primitives.
 """
 import numpy as np
 import pytest
-from rice_Ml.supervised_ml.cnn.layers import Conv1D, MaxPool1D, Flatten, Dense
-from rice_Ml.supervised_ml.cnn.cnn import CNN
+from rice_ml.supervised_ml.cnn.layers import Conv1D, MaxPool1D, Flatten, Dense
+from rice_ml.supervised_ml.cnn.cnn import CNN
 
 
 # ---------------------------------------------------------------------------

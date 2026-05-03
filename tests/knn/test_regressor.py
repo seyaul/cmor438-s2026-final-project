@@ -1,9 +1,9 @@
-"""Unit tests for KNNRegressor."""
+﻿"""Unit tests for KNNRegressor."""
 
 import numpy as np
 import pytest
 
-from rice_Ml.supervised_ml.knn.regressor import KNNRegressor
+from rice_ml.supervised_ml.knn.regressor import KNNRegressor
 
 # ---------------------------------------------------------------------------
 # Fixtures

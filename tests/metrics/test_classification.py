@@ -1,6 +1,6 @@
-import numpy as np
+﻿import numpy as np
 import pytest
-from rice_Ml.metrics.classification import accuracy, precision, recall, f1_score
+from rice_ml.metrics.classification import accuracy, precision, recall, f1_score
 import warnings
 
 class TestAccuracy:

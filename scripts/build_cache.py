@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 """Preprocess all GuitarSet tracks and save as .npz feature caches.
 
 Run once after downloading the dataset. Each track produces one .npz file
@@ -18,7 +18,7 @@ Usage
     python scripts/build_cache.py --label frequency
 
     # Load a cached dataset later in a notebook or script:
-    #   from rice_Ml.preprocessing import load_dataset
+    #   from rice_ml.preprocessing import load_dataset
     #   X, y = load_dataset("data/cache/03_BN3-119-G_solo.npz")
 """
 from __future__ import annotations
@@ -26,8 +26,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from rice_Ml.preprocessing.download import get_guitarset, track_ids
-from rice_Ml.preprocessing.dataset import build_multi_string_dataset_from_track, save_dataset
+from rice_ml.preprocessing.download import get_guitarset, track_ids
+from rice_ml.preprocessing.dataset import build_multi_string_dataset_from_track, save_dataset
 
 
 def main() -> None:

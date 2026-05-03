@@ -1,11 +1,11 @@
-"""Unit tests for rice_Ml.measures_ml.distances."""
+﻿"""Unit tests for rice_ml.measures_ml.distances."""
 
 import math
 
 import numpy as np
 import pytest
 
-from rice_Ml.measures_ml.distances import euclidean, taxicab
+from rice_ml.measures_ml.distances import euclidean, taxicab
 
 
 # ---------------------------------------------------------------------------

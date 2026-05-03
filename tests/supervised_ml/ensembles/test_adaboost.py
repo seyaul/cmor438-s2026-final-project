@@ -1,8 +1,8 @@
-"""Unit tests for AdaBoost."""
+﻿"""Unit tests for AdaBoost."""
 
 import numpy as np
 import pytest
-from rice_Ml.supervised_ml.ensembles.adaboost import AdaBoost
+from rice_ml.supervised_ml.ensembles.adaboost import AdaBoost
 
 
 @pytest.fixture

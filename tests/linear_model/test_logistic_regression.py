@@ -1,7 +1,7 @@
-import numpy as np
+﻿import numpy as np
 import pytest
-from rice_Ml.supervised_ml.linear_model import LogisticRegression
-from rice_Ml.metrics.classification import accuracy
+from rice_ml.supervised_ml.linear_model import LogisticRegression
+from rice_ml.metrics.classification import accuracy
 
 class TestLogisticRegression:
     """Unit tests for the LogisticRegression class."""

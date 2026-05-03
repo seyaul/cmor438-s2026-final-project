@@ -1,8 +1,8 @@
-"""
+﻿"""
 Frame-level audio feature extraction.
 
 All public functions accept a 2-D frame matrix of shape ``(n_frames, frame_len)``
-as produced by :func:`rice_Ml.preprocessing.audio.frame_signal` and return
+as produced by :func:`rice_ml.preprocessing.audio.frame_signal` and return
 NumPy arrays.  Only ``scipy`` and ``numpy`` are used — no external audio
 libraries required.
 """

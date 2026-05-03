@@ -1,10 +1,10 @@
-"""
+﻿"""
 Unit tests for DBSCAN — density-based clustering with noise detection.
 """
 
 import numpy as np
 import pytest
-from rice_Ml.unsupervised_ml.DBSCAN.dbscan import DBSCAN
+from rice_ml.unsupervised_ml.DBSCAN.dbscan import DBSCAN
 
 
 # ---------------------------------------------------------------------------

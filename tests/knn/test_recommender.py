@@ -1,9 +1,9 @@
-"""Unit tests for KNNRecommender."""
+﻿"""Unit tests for KNNRecommender."""
 
 import numpy as np
 import pytest
 
-from rice_Ml.supervised_ml.knn.recommender import KNNRecommender
+from rice_ml.supervised_ml.knn.recommender import KNNRecommender
 
 # ---------------------------------------------------------------------------
 # Fixtures

@@ -1,8 +1,8 @@
-"""AdaBoost classifier using decision stumps as weak learners (SAMME algorithm)."""
+﻿"""AdaBoost classifier using decision stumps as weak learners (SAMME algorithm)."""
 
 import numpy as np
 
-from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
+from rice_ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
 
 class AdaBoost:

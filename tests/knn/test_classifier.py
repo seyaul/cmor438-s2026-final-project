@@ -1,9 +1,9 @@
-"""Unit tests for KNNClassifier."""
+﻿"""Unit tests for KNNClassifier."""
 
 import numpy as np
 import pytest
 
-from rice_Ml.supervised_ml.knn.classifier import KNNClassifier
+from rice_ml.supervised_ml.knn.classifier import KNNClassifier
 
 # ---------------------------------------------------------------------------
 # Shared fixtures

@@ -1,11 +1,11 @@
-"""Unit tests for StackingClassifier."""
+﻿"""Unit tests for StackingClassifier."""
 
 import numpy as np
 import pytest
-from rice_Ml.supervised_ml.ensembles.stacking import StackingClassifier
-from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
-from rice_Ml.supervised_ml.knn.classifier import KNNClassifier
-from rice_Ml.supervised_ml.linear_model import LogisticRegression
+from rice_ml.supervised_ml.ensembles.stacking import StackingClassifier
+from rice_ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
+from rice_ml.supervised_ml.knn.classifier import KNNClassifier
+from rice_ml.supervised_ml.linear_model import LogisticRegression
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
-import numpy as np
+﻿import numpy as np
 import pytest
-from rice_Ml.loss.classification import BinaryCrossEntropy
+from rice_ml.loss.classification import BinaryCrossEntropy
 
 def test_bce_perfect_prediction():
     bce = BinaryCrossEntropy()

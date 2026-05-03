@@ -32,7 +32,7 @@ data = [
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/rice_ML"]
+packages = ["src/rice_Ml"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

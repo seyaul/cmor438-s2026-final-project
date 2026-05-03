@@ -9,7 +9,7 @@ from typing import Callable
 import numpy as np
 from numpy.typing import ArrayLike
 
-from rice_ML.measures_ml.distances import euclidean, taxicab
+from rice_Ml.measures_ml.distances import euclidean, taxicab
 
 _BUILTIN_METRICS: dict[str, Callable] = {
     "euclidean": euclidean,

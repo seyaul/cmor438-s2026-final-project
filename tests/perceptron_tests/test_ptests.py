@@ -1,6 +1,6 @@
 import numpy as np
 import pytest
-from rice_ML.supervised_ml.Perceptron.perceptron import Perceptron
+from rice_Ml.supervised_ml.Perceptron.perceptron import Perceptron
 from sklearn.datasets import make_blobs
 
 

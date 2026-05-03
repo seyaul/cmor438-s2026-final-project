@@ -4,7 +4,7 @@ Unit tests for KMeans clustering.
 
 import numpy as np
 import pytest
-from rice_ML.unsupervised_ml.KMeans.kmeans import KMeans
+from rice_Ml.unsupervised_ml.KMeans.kmeans import KMeans
 
 
 # ---------------------------------------------------------------------------

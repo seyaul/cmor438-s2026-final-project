@@ -4,7 +4,7 @@ Unit tests for DecisionTree — binary classifier with gini/entropy splitting.
 
 import numpy as np
 import pytest
-from rice_ML.supervised_ml.DecisionTree.decision_tree import DecisionTree
+from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
 
 # ---------------------------------------------------------------------------

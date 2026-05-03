@@ -5,7 +5,7 @@ import math
 import numpy as np
 import pytest
 
-from rice_ML.measures_ml.distances import euclidean, taxicab
+from rice_Ml.measures_ml.distances import euclidean, taxicab
 
 
 # ---------------------------------------------------------------------------

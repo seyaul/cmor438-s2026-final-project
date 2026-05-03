@@ -7,7 +7,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from rice_ML.preprocessing.guitarset import (
+from rice_Ml.preprocessing.guitarset import (
     load_jams,
     get_note_events,
     get_pitch_contour,

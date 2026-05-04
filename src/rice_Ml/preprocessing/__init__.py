@@ -32,6 +32,7 @@ from .dataset import (
     build_dataset_from_track, build_multi_string_dataset_from_track,
 )
 from .download import get_guitarset, track_ids
+from .balance import undersample_majority
 
 __all__ = [
     # guitarset annotation parsing
@@ -50,4 +51,6 @@ __all__ = [
     "save_dataset", "load_dataset",
     # mirdata helpers
     "get_guitarset", "track_ids",
+    # class balancing
+    "undersample_majority",
 ]

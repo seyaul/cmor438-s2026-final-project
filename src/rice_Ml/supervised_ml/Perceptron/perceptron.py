@@ -12,8 +12,10 @@ the epoch limit and converged_ will be False.
 import numpy as np
 import matplotlib.pyplot as plt
 
+from rice_Ml.base.base_model import BaseModel
 
-class Perceptron(object):
+
+class Perceptron(BaseModel):
     """
     single-layer perceptron for binary classification.
 
@@ -42,7 +44,7 @@ class Perceptron(object):
         self.random_state = random_state
 
 
-    def train(self, X, y):
+    def fit(self, X, y):
         """Fit the perceptron to (X, y); returns self."""
         X = np.array(X)
         y = np.array(y)
@@ -54,8 +56,7 @@ class Perceptron(object):
         if not np.all(np.isin(y, [1, -1])):
             raise ValueError("y must contain only 1 and -1.")
 
-        np.random.seed(self.random_state)
-        self.w_b_ = np.random.rand(1 + X.shape[1])
+        self.w_b_ = np.zeros(1 + X.shape[1])
 
         epoch_counter = 0
         self.mistakes_ = []
@@ -77,16 +78,18 @@ class Perceptron(object):
                 return self
             else:
                 self.mistakes_.append(errors)
-                # perceptron criterion loss: sum of -y_i * net_input(x_i) for misclassified samples
-                net = self.net_input(X)
-                misclassified = np.where(net >= 0, 1, -1) != y
-                loss = float(np.sum(-y[misclassified] * net[misclassified]))
+                # MSE loss: fraction of misclassified samples (matches reference implementation)
+                y_pred_01 = (self.predict(X) + 1) // 2   # {-1,+1} → {0,1}
+                y_01 = (y + 1) // 2
+                loss = float(np.mean((y_01 - y_pred_01) ** 2))
                 self.loss_history_.append(loss)
             epoch_counter += 1
 
         self.converged_ = False
         self.n_epochs_run_ = self.epochs
         return self
+
+    train = fit  # backward-compatible alias
 
     def net_input(self, X):
         """
@@ -102,4 +105,5 @@ class Perceptron(object):
 
     def score(self, X, y):
         """Return accuracy on (X, y)."""
-        return np.mean(self.predict(X) == np.array(y))
+        from rice_Ml.metrics import accuracy
+        return accuracy(self.predict(X), np.array(y))

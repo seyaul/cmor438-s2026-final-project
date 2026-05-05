@@ -2,22 +2,25 @@
 
 import numpy as np
 
+from rice_Ml.base.base_model import BaseModel
+
 
 class Node:
     """Single node in the tree — either a decision split or a leaf."""
 
-    def __init__(self, feature=None, threshold=None, left=None, right=None, value=None):
+    def __init__(self, feature=None, threshold=None, left=None, right=None, value=None, proba=None):
         self.feature = feature
         self.threshold = threshold
         self.left = left
         self.right = right
         self.value = value
+        self.proba = proba  # class probability vector at leaf, shape (n_classes,)
 
     def is_leaf(self):
         return self.value is not None
 
 
-class DecisionTree:
+class DecisionTree(BaseModel):
     """
     Binary decision tree classifier built by recursive greedy splitting.
 
@@ -87,9 +90,14 @@ class DecisionTree:
         """Classify each row of X; returns a 1-D label array."""
         return np.array([self._traverse(row, self.root_) for row in X])
 
+    def predict_proba(self, X):
+        """Return class probability estimates; shape (n_samples, n_classes)."""
+        return np.array([self._traverse_proba(row, self.root_) for row in X])
+
     def score(self, X, y):
         """Return accuracy on (X, y)."""
-        return np.mean(self.predict(X) == np.array(y))
+        from rice_Ml.metrics import accuracy
+        return accuracy(self.predict(X), np.array(y))
 
     # ------------------------------------------------------------------
     # Private
@@ -105,16 +113,21 @@ class DecisionTree:
             return max(1, int(np.log2(n_features)))
         return min(self.max_features, n_features)
 
+    def _leaf(self, y):
+        """Create a leaf node storing both the majority class and class probabilities."""
+        counts = np.array([(y == c).sum() for c in self.classes_], dtype=float)
+        return Node(value=self._majority_class(y), proba=counts / counts.sum())
+
     def _build_tree(self, X, y, depth):
         """Recursively split (X, y); return a leaf when stopping criteria are met."""
         if self._impurity(y) == 0 or len(y) < self.min_samples_split:
-            return Node(value=self._majority_class(y))
+            return self._leaf(y)
         if self.max_depth is not None and depth >= self.max_depth:
-            return Node(value=self._majority_class(y))
+            return self._leaf(y)
 
         feature, threshold = self._best_split(X, y)
         if feature is None:
-            return Node(value=self._majority_class(y))
+            return self._leaf(y)
 
         left_mask = X[:, feature] <= threshold
         left = self._build_tree(X[left_mask], y[left_mask], depth + 1)
@@ -187,3 +200,11 @@ class DecisionTree:
         if x[node.feature] <= node.threshold:
             return self._traverse(x, node.left)
         return self._traverse(x, node.right)
+
+    def _traverse_proba(self, x, node):
+        """Walk the tree and return the leaf's class probability vector."""
+        if node.is_leaf():
+            return node.proba
+        if x[node.feature] <= node.threshold:
+            return self._traverse_proba(x, node.left)
+        return self._traverse_proba(x, node.right)

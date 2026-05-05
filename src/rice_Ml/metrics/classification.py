@@ -52,3 +52,15 @@ def recall(y_true: np.ndarray, y_pred: np.ndarray) -> float:
 def f1_score(y_true: np.ndarray, y_pred: np.ndarray) -> float:
     """F1 score for binary predictions."""
     return F1Score()(y_true, y_pred)
+
+def per_class_f1(y_true: np.ndarray, y_pred: np.ndarray, classes: np.ndarray) -> np.ndarray:
+    """Per-class F1 scores for multi-class classification. Returns array aligned with classes."""
+    f1s = []
+    for c in classes:
+        tp = np.sum((y_true == c) & (y_pred == c))
+        fp = np.sum((y_true != c) & (y_pred == c))
+        fn = np.sum((y_true == c) & (y_pred != c))
+        p = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+        r = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+        f1s.append(2 * p * r / (p + r) if (p + r) > 0 else 0.0)
+    return np.array(f1s)

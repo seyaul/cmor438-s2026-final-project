@@ -176,8 +176,8 @@ class KNNClassifier(_KNNBase):
         accuracy : float in [0, 1]
         """
         self._check_fitted()
-        y_arr = np.asarray(y)
-        return float(np.mean(self.predict(X) == y_arr))
+        from rice_Ml.metrics import accuracy
+        return accuracy(self.predict(X), np.asarray(y))
 
     def __repr__(self) -> str:
         return f"KNNClassifier(k={self.k}, metric={self.metric!r})"

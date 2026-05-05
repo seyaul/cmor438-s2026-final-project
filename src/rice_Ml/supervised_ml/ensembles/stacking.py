@@ -1,10 +1,12 @@
 ﻿"""Stacking ensemble: combines base estimator predictions via a meta-learner."""
 
 import numpy as np
+
+from rice_Ml.base.base_model import BaseModel
 from rice_Ml.model_selection.split import KFold
 
 
-class StackingClassifier:
+class StackingClassifier(BaseModel):
     """
     Stacking ensemble that trains a meta-learner on out-of-fold predictions.
 
@@ -46,16 +48,20 @@ class StackingClassifier:
 
         self.classes_ = np.unique(y)
         n_samples = len(X)
+        n_classes = len(self.classes_)
         n_base = len(self.estimators)
 
-        # --- build out-of-fold meta-features ---
-        meta_X = np.zeros((n_samples, n_base))
+        # --- build out-of-fold meta-features (probabilities, not hard labels) ---
+        # Shape: (n_samples, n_base * n_classes) — each base model contributes one
+        # probability column per class, giving the meta-learner real signal to work with.
+        meta_X = np.zeros((n_samples, n_base * n_classes))
         kfold = KFold(n_splits=self.cv)
 
         for fold_train_idx, fold_val_idx in kfold.split(X):
             for col, (_, est) in enumerate(self.estimators):
                 est.fit(X[fold_train_idx], y[fold_train_idx])
-                meta_X[fold_val_idx, col] = est.predict(X[fold_val_idx])
+                proba = est.predict_proba(X[fold_val_idx])  # (n_val, n_classes)
+                meta_X[fold_val_idx, col * n_classes:(col + 1) * n_classes] = proba
 
         # --- fit meta-learner on OOF predictions ---
         self.meta_estimator_ = self.meta_estimator
@@ -75,9 +81,10 @@ class StackingClassifier:
 
     def score(self, X, y):
         """Return accuracy on (X, y)."""
-        return np.mean(self.predict(X) == np.array(y))
+        from rice_Ml.metrics import accuracy
+        return accuracy(self.predict(X), np.array(y))
 
     def _meta_features(self, X):
-        """Collect base estimator predictions into a (n_samples, n_base) matrix."""
-        return np.column_stack([est.predict(X) for _, est in self.estimators_])
+        """Collect base estimator probabilities into a (n_samples, n_base * n_classes) matrix."""
+        return np.column_stack([est.predict_proba(X) for _, est in self.estimators_])
 

@@ -3,7 +3,7 @@
 from .base import Metric
 from .classification import (
     Accuracy, Precision, Recall, F1Score,
-    accuracy, precision, recall, f1_score
+    accuracy, precision, recall, f1_score, per_class_f1
 )
 from .regression import (
     R2Score, RMSE, MAE,
@@ -16,7 +16,7 @@ __all__ = [
     # Classification classes
     'Accuracy', 'Precision', 'Recall', 'F1Score',
     # Classification functions
-    'accuracy', 'precision', 'recall', 'f1_score',
+    'accuracy', 'precision', 'recall', 'f1_score', 'per_class_f1',
     # Regression classes
     'R2Score', 'RMSE', 'MAE',
     # Regression functions

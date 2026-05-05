@@ -165,8 +165,8 @@ class LinearRegression(BaseLinearModel):
                 # Compute gradient of loss w.r.t predictions
                 dloss = loss_fn.gradient(y_batch, y_pred)
 
-                # Gradient w.r.t weights
-                grad = X_batch.T @ dloss
+                # Gradient w.r.t weights (average over batch)
+                grad = X_batch.T @ dloss / len(X_batch)
 
                 # Update weights using optimizer
                 # We wrap parameters in a dict for the optimizer interface

@@ -18,10 +18,11 @@ class AdaBoost:
         classes_    — sorted array of unique class labels
     """
 
-    def __init__(self, n_estimators=50, learning_rate=1.0, random_state=None):
+    def __init__(self, n_estimators=50, learning_rate=1.0, stump_depth=1, random_state=None):
         """
-        n_estimators  — number of boosting rounds (stumps)
+        n_estimators  — number of boosting rounds
         learning_rate — shrinks each stump's contribution; trades off with n_estimators
+        stump_depth   — max_depth of each weak learner (1 = classic stump, 2–3 for more expressiveness)
         random_state  — seed for reproducibility
         """
         if not isinstance(n_estimators, int) or n_estimators < 1:
@@ -31,6 +32,7 @@ class AdaBoost:
 
         self.n_estimators = n_estimators
         self.learning_rate = learning_rate
+        self.stump_depth = stump_depth
         self.random_state = random_state
 
     def fit(self, X, y):
@@ -57,7 +59,7 @@ class AdaBoost:
         for seed in seeds:
             # weighted bootstrap: sample proportional to current weights
             indices = rng.choice(n_samples, size=n_samples, replace=True, p=weights)
-            stump = DecisionTree(max_depth=1, random_state=int(seed))
+            stump = DecisionTree(max_depth=self.stump_depth, random_state=int(seed))
             stump.fit(X[indices], y[indices])
 
             pred = stump.predict(X)

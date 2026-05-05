@@ -77,6 +77,7 @@ class Perceptron(object):
 
         epoch_counter = 0
         self.mistakes_ = []
+        self.loss_history_ = []
 
         #loop over each sample, update weights whenever we get one wrong
         while epoch_counter < self.epochs:
@@ -97,12 +98,18 @@ class Perceptron(object):
             #if no misclassifications this epoch the boundary is perfect — stop early
             if errors == 0:
                 self.converged_ = True
+                self.loss_history_.append(0.0)
                 #epoch_counter is 0-indexed so add 1 for the real count
                 self.n_epochs_run_ = epoch_counter + 1
                 return self
             else:
                 #record how many mistakes we made this epoch to track learning progress
                 self.mistakes_.append(errors)
+                # perceptron criterion loss: sum of -y_i * net_input(x_i) for misclassified samples
+                net = self.net_input(X)
+                misclassified = np.where(net >= 0, 1, -1) != y
+                loss = float(np.sum(-y[misclassified] * net[misclassified]))
+                self.loss_history_.append(loss)
             epoch_counter += 1
 
         #hit the epoch limit without converging

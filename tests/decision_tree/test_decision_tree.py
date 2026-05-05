@@ -76,6 +76,9 @@ class TestInit:
         with pytest.raises(ValueError, match="criterion"):
             DecisionTree(criterion="mse")
 
+    def test_no_root_before_fit(self):
+        assert not hasattr(DecisionTree(), "root_")
+
 
 # ===========================================================================
 # TestFit
@@ -111,6 +114,22 @@ class TestFit:
         X, y = binary_blobs
         with pytest.raises(ValueError):
             DecisionTree().fit(X, y[:3])
+
+    def test_returns_self(self, binary_blobs):
+        X, y = binary_blobs
+        dt = DecisionTree()
+        assert dt.fit(X, y) is dt
+
+    def test_accepts_python_lists(self):
+        X = [[1.0, 1.0], [1.5, 1.0], [8.0, 8.0], [8.5, 8.0]]
+        y = [0, 0, 1, 1]
+        DecisionTree().fit(X, y)  # should not raise
+
+    def test_pure_node_stops_early(self):
+        X = np.array([[1.0, 1.0], [2.0, 2.0]], dtype=float)
+        y = np.array([0, 0])
+        tree = DecisionTree().fit(X, y)
+        assert tree.root_.is_leaf()
 
 
 # ===========================================================================
@@ -149,6 +168,21 @@ class TestPredict:
         preds = dt.predict(X)
         assert set(preds).issubset({0, 1})
 
+    def test_predict_single_sample(self, binary_blobs):
+        X, y = binary_blobs
+        dt = DecisionTree().fit(X, y)
+        assert dt.predict(X[:1]).shape == (1,)
+
+    def test_and_gate(self):
+        X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=float)
+        y = np.array([0, 0, 0, 1])
+        assert DecisionTree().fit(X, y).score(X, y) == pytest.approx(1.0)
+
+    def test_or_gate(self):
+        X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]], dtype=float)
+        y = np.array([0, 1, 1, 1])
+        assert DecisionTree().fit(X, y).score(X, y) == pytest.approx(1.0)
+
 
 # ===========================================================================
 # TestScore
@@ -171,6 +205,11 @@ class TestScore:
         preds = dt.predict(X)
         expected = np.mean(preds == y)
         assert dt.score(X, y) == pytest.approx(expected)
+
+    def test_score_returns_float(self, binary_blobs):
+        X, y = binary_blobs
+        dt = DecisionTree().fit(X, y)
+        assert isinstance(float(dt.score(X, y)), float)
 
 
 # ===========================================================================
@@ -258,3 +297,26 @@ class TestBestSplit:
         _, thresh = DecisionTree()._best_split(X, y)
         # Best split should put 10.0 alone on the right
         assert thresh < 10.0
+
+
+# ===========================================================================
+# TestHyperparameters
+# ===========================================================================
+
+class TestHyperparameters:
+    def test_deeper_tree_fits_better(self, binary_blobs):
+        X, y = binary_blobs
+        shallow = DecisionTree(max_depth=1).fit(X, y).score(X, y)
+        deep = DecisionTree(max_depth=10).fit(X, y).score(X, y)
+        assert deep >= shallow
+
+    def test_min_samples_split_prevents_split(self):
+        X = np.array([[1.0], [2.0], [3.0], [8.0], [9.0], [10.0]], dtype=float)
+        y = np.array([0, 0, 0, 1, 1, 1])
+        tree = DecisionTree(min_samples_split=10).fit(X, y)
+        assert tree.root_.is_leaf()
+
+    def test_gini_and_entropy_both_converge(self, binary_blobs):
+        X, y = binary_blobs
+        assert DecisionTree(criterion="gini").fit(X, y).score(X, y) == pytest.approx(1.0)
+        assert DecisionTree(criterion="entropy").fit(X, y).score(X, y) == pytest.approx(1.0)

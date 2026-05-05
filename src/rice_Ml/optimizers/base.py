@@ -5,4 +5,5 @@ class Optimizer(ABC):
 
     @abstractmethod
     def update(self, params: dict, grads: dict) -> None:
+        """Update params in-place using the provided gradients."""
         pass

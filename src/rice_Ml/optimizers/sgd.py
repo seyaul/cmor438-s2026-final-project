@@ -10,8 +10,9 @@ class SGD(Optimizer):
         self,
         learning_rate: float = 0.01,
         momentum: float = 0.0,
-        clipnorm: float = None,  
+        clipnorm: float = None,
     ):
+        """Initialise SGD with learning rate, optional momentum, and gradient clipping."""
         self.lr = learning_rate
         self.momentum = momentum
         self.clipnorm = clipnorm

@@ -14,7 +14,7 @@ DBSCAN does **not** require specifying the number of clusters in advance, can fi
 - **Source:** Synthetic data generated with scikit‑learn’s `make_blobs` and `make_moons`.
 - **Blobs dataset:** 300 samples, 3 well‑separated spherical clusters, 2 features.
 - **Moons dataset:** 300 samples, 2 interleaving half‑circles (non‑convex), 2 features, 5% noise.
-- **Preprocessing:** Both datasets are standardised to zero mean and unit variance using `myml.utils.preprocessing.StandardScaler`.
+- **Preprocessing:** Both datasets are standardised to zero mean and unit variance using `rice_Ml.utils.preprocessing.StandardScaler`.
 - **Task:** Unsupervised clustering — recover the underlying group structure and identify noise points.
 
 ## How to Run
@@ -25,7 +25,7 @@ DBSCAN does **not** require specifying the number of clusters in advance, can fi
 pip install -r requirements.txt   # from repo root (numpy, matplotlib, seaborn, scikit‑learn, jupyter)
 ```
 
-Ensure your `myml` package is installed in editable mode:
+Ensure your `rice_Ml` package is installed in editable mode:
 
 ```bash
 pip install -e .   # from repo root

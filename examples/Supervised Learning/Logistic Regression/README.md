@@ -26,7 +26,7 @@ The model inherits from `BaseLinearModel` and reuses the same modular components
 - **Source:** Breast Cancer Wisconsin Diagnostic Dataset (`load_breast_cancer` from scikit‑learn).
 - **Samples:** 569 instances, 30 numeric features, 1 binary target (0 = malignant, 1 = benign).
 - **Class balance:** ~37% malignant, ~63% benign.
-- **Preprocessing:** Features are standardised to zero mean and unit variance using `myml.utils.preprocessing.StandardScaler`.
+- **Preprocessing:** Features are standardised to zero mean and unit variance using `rice_Ml.utils.preprocessing.StandardScaler`.
 - **Task:** Binary classification — distinguish malignant from benign breast tumours.
 
 ## How to Run
@@ -37,7 +37,7 @@ The model inherits from `BaseLinearModel` and reuses the same modular components
 pip install -r requirements.txt   # from repo root
 ```
 
-Ensure your `myml` package is installed in editable mode:
+Ensure your `rice_Ml` package is installed in editable mode:
 
 ```bash
 pip install -e .   # from repo root

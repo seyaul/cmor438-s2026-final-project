@@ -22,7 +22,7 @@ Our implementation provides two solvers:
 
 - **Source:** California Housing dataset (`fetch_california_housing` from scikit‑learn).
 - **Samples:** 20,640 instances, 8 numeric features, 1 target (median house value in $100k).
-- **Preprocessing:** Features are standardised to zero mean and unit variance using `myml.utils.preprocessing.StandardScaler`. The target is scaled for SGD training (inverse transformation applied for evaluation).
+- **Preprocessing:** Features are standardised to zero mean and unit variance using `rice_Ml.utils.preprocessing.StandardScaler`. The target is scaled for SGD training (inverse transformation applied for evaluation).
 - **Task:** Regression — predict the median house value of a district.
 
 ### Features (8)
@@ -46,7 +46,7 @@ Our implementation provides two solvers:
 pip install -r requirements.txt   # from repo root
 ```
 
-Make sure your `myml` package is installed in editable mode:
+Make sure your `rice_Ml` package is installed in editable mode:
 
 ```bash
 pip install -e .   # from repo root

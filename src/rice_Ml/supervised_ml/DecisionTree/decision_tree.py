@@ -130,18 +130,37 @@ class DecisionTree:
         n_features_split = self._n_features_split or X.shape[1]
         feature_indices = self._rng.choice(X.shape[1], size=n_features_split, replace=False)
 
-        for feature in feature_indices:
-            for thresh in np.unique(X[:, feature]):
-                left_mask = X[:, feature] <= thresh
-                n_left = left_mask.sum()
-                n_right = n_total - n_left
-                if n_left == 0 or n_right == 0:
-                    continue
+        y_int = y.astype(np.intp)
+        n_classes = y_int.max() + 1
 
-                gain = parent_impurity - (
-                    n_left / n_total * self._impurity(y[left_mask])
-                    + n_right / n_total * self._impurity(y[~left_mask])
-                )
+        for feature in feature_indices:
+            col = X[:, feature]
+            thresholds = np.unique(np.percentile(col, np.linspace(0, 100, 20)))
+
+            order = np.argsort(col)
+            col_sorted = col[order]
+            y_sorted = y_int[order]
+
+            # cumulative class counts: cumsum[i] = counts in y_sorted[:i+1]
+            onehot = np.zeros((n_total, n_classes), dtype=np.int32)
+            onehot[np.arange(n_total), y_sorted] = 1
+            cumsum = onehot.cumsum(axis=0)  # O(n) once per feature
+            total_counts = cumsum[-1]
+
+            for thresh in thresholds:
+                n_left = int(np.searchsorted(col_sorted, thresh, side="right"))
+                if n_left == 0 or n_left == n_total:
+                    continue
+                n_right = n_total - n_left
+                left_counts  = cumsum[n_left - 1].astype(float)
+                right_counts = (total_counts - cumsum[n_left - 1]).astype(float)
+
+                p_l = left_counts  / n_left
+                p_r = right_counts / n_right
+                g_l = 1.0 - np.dot(p_l, p_l) if self.criterion == "gini" else -np.sum(p_l[p_l>0] * np.log2(p_l[p_l>0]))
+                g_r = 1.0 - np.dot(p_r, p_r) if self.criterion == "gini" else -np.sum(p_r[p_r>0] * np.log2(p_r[p_r>0]))
+
+                gain = parent_impurity - (n_left / n_total * g_l + n_right / n_total * g_r)
                 if gain > best_gain:
                     best_feature, best_thresh, best_gain = feature, thresh, gain
 
@@ -149,11 +168,11 @@ class DecisionTree:
 
     def _impurity(self, y):
         """Compute gini or entropy impurity of label array y."""
-        _, counts = np.unique(y, return_counts=True)
-        p = counts / counts.sum()
+        counts = np.bincount(y.view(np.intp) if y.dtype.kind == 'i' else y.astype(np.intp))
+        counts = counts[counts > 0]
+        p = counts / len(y)
         if self.criterion == "gini":
-            return 1.0 - np.sum(p ** 2)
-        p = p[p > 0]
+            return 1.0 - np.dot(p, p)
         return -np.sum(p * np.log2(p))
 
     def _majority_class(self, y):

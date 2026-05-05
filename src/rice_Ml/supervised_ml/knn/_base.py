@@ -9,6 +9,7 @@ from typing import Callable
 import numpy as np
 from numpy.typing import ArrayLike
 
+from rice_Ml.base.base_model import BaseModel
 from rice_Ml.measures_ml.distances import euclidean, taxicab
 
 _BUILTIN_METRICS: dict[str, Callable] = {
@@ -52,7 +53,7 @@ def _resolve_metric(metric: str | Callable) -> Callable:
     return _BUILTIN_METRICS[metric]
 
 
-class _KNNBase:
+class _KNNBase(BaseModel):
     """Shared fit/predict machinery for KNN-based supervised estimators.
 
     Subclasses must implement :meth:`fit` and :meth:`predict`.

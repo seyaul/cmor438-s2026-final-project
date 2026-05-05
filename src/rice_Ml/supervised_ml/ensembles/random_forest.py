@@ -2,10 +2,11 @@
 
 import numpy as np
 
+from rice_Ml.base.base_model import BaseModel
 from rice_Ml.supervised_ml.DecisionTree.decision_tree import DecisionTree
 
 
-class RandomForest:
+class RandomForest(BaseModel):
     """
     Ensemble of decision trees trained on bootstrap samples with random feature subsets.
 
@@ -102,7 +103,8 @@ class RandomForest:
 
     def score(self, X, y):
         """Return accuracy on (X, y)."""
-        return np.mean(self.predict(X) == np.array(y))
+        from rice_Ml.metrics import accuracy
+        return accuracy(self.predict(X), np.array(y))
 
     def _majority_vote(self, votes):
         labels, counts = np.unique(votes, return_counts=True)

@@ -144,12 +144,12 @@ class TestReproducibility:
         p2 = Perceptron(eta=0.1, epochs=200, random_state=7).train(X, y)
         np.testing.assert_array_equal(p1.w_b_, p2.w_b_)
 
-    # different seeds should produce different starting weights and final weights
-    def test_different_random_state_different_weights(self, _make_test_data):
+    # weights are initialized to zero regardless of random_state — training is deterministic
+    def test_different_random_state_same_weights(self, _make_test_data):
         X, y = _make_test_data
         p1 = Perceptron(eta=0.1, epochs=5, random_state=0).train(X, y)
         p2 = Perceptron(eta=0.1, epochs=5, random_state=99).train(X, y)
-        assert not np.allclose(p1.w_b_, p2.w_b_)
+        np.testing.assert_array_equal(p1.w_b_, p2.w_b_)
 
 
 class TestEpochsRun:

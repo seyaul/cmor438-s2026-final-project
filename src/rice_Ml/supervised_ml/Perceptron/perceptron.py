@@ -59,6 +59,7 @@ class Perceptron(object):
 
         epoch_counter = 0
         self.mistakes_ = []
+        self.loss_history_ = []
 
         while epoch_counter < self.epochs:
             errors = 0
@@ -76,6 +77,11 @@ class Perceptron(object):
                 return self
             else:
                 self.mistakes_.append(errors)
+                # perceptron criterion loss: sum of -y_i * net_input(x_i) for misclassified samples
+                net = self.net_input(X)
+                misclassified = np.where(net >= 0, 1, -1) != y
+                loss = float(np.sum(-y[misclassified] * net[misclassified]))
+                self.loss_history_.append(loss)
             epoch_counter += 1
 
         self.converged_ = False

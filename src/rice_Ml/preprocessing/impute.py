@@ -8,6 +8,7 @@ class SimpleImputer:
         self.statistics_ = None
 
     def fit(self, X: np.ndarray) -> 'SimpleImputer':
+        """Compute per-column imputation statistics from X."""
         if self.strategy == 'mean':
             self.statistics_ = np.nanmean(X, axis=0)
         elif self.strategy == 'median':
@@ -20,8 +21,10 @@ class SimpleImputer:
         return self
 
     def transform(self, X: np.ndarray) -> np.ndarray:
+        """Replace NaN values with the fitted per-column statistics."""
         # Replace NaNs with statistics_
         pass
 
     def fit_transform(self, X: np.ndarray) -> np.ndarray:
+        """Fit to X, then impute and return it."""
         return self.fit(X).transform(X)

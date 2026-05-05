@@ -6,6 +6,7 @@ class Loss(ABC):
 
     @abstractmethod
     def __call__(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
+        """Compute the scalar loss between y_true and y_pred."""
         pass
 
     @abstractmethod

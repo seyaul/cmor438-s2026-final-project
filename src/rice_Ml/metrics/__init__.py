@@ -1,3 +1,5 @@
+"""Evaluation metrics for classification and regression."""
+
 from .base import Metric
 from .classification import (
     Accuracy, Precision, Recall, F1Score,

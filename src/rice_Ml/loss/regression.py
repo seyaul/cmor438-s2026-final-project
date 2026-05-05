@@ -5,6 +5,7 @@ class MeanSquaredError(Loss):
     """Mean Squared Error loss for regression."""
 
     def __call__(self, y_true: np.ndarray, y_pred: np.ndarray) -> float:
+        """Return mean squared error between y_true and y_pred."""
         return np.mean((y_true - y_pred) ** 2)
 
     def gradient(self, y_true: np.ndarray, y_pred: np.ndarray) -> np.ndarray:

@@ -96,6 +96,7 @@ class DecisionTree:
     # ------------------------------------------------------------------
 
     def _resolve_max_features(self, n_features):
+        """Map self.max_features to a concrete feature count."""
         if self.max_features is None:
             return n_features
         if self.max_features == "sqrt":
@@ -105,6 +106,7 @@ class DecisionTree:
         return min(self.max_features, n_features)
 
     def _build_tree(self, X, y, depth):
+        """Recursively split (X, y); return a leaf when stopping criteria are met."""
         if self._impurity(y) == 0 or len(y) < self.min_samples_split:
             return Node(value=self._majority_class(y))
         if self.max_depth is not None and depth >= self.max_depth:
@@ -146,6 +148,7 @@ class DecisionTree:
         return best_feature, best_thresh
 
     def _impurity(self, y):
+        """Compute gini or entropy impurity of label array y."""
         _, counts = np.unique(y, return_counts=True)
         p = counts / counts.sum()
         if self.criterion == "gini":
@@ -154,10 +157,12 @@ class DecisionTree:
         return -np.sum(p * np.log2(p))
 
     def _majority_class(self, y):
+        """Return the most frequent label in y."""
         labels, counts = np.unique(y, return_counts=True)
         return labels[np.argmax(counts)]
 
     def _traverse(self, x, node):
+        """Walk the tree from node to the matching leaf and return its label."""
         if node.is_leaf():
             return node.value
         if x[node.feature] <= node.threshold:

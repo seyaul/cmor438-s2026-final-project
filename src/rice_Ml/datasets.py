@@ -1,15 +1,16 @@
 """
-GuitarSet feature dataset loader.
+Dataset loaders for rice_Ml.
 
-Downloads from the GitHub Release on first use and caches at ~/.cache/rice_ml/.
+All datasets download from GitHub Releases on first use and cache at ~/.cache/rice_ml/.
 Subsequent calls load from cache — no internet required.
 
 Usage
 -----
-    from rice_Ml.datasets import load_guitarset
+    from rice_Ml.datasets import load_guitarset, load_world_happiness
 
     df = load_guitarset()              # 10-track subset (~19 MB download)
     df = load_guitarset(subset=False)  # full 360-track dataset (~855 MB download)
+    df = load_world_happiness()        # World Happiness Report 2019-2025 (~60 KB download)
 """
 
 import hashlib
@@ -22,6 +23,12 @@ _BASE_URL = (
     "https://github.com/seyaul/cmor438-s2026-final-project"
     "/releases/download/v1.0-data/"
 )
+
+_HAPPINESS_FILE = {
+    "name": "world_happiness.csv",
+    "sha256": "832e1930a53fa13cff160acbe12ba4ed3edd5db04653e12bdb14410d33b687d8",
+    "size_hint": "~60 KB",
+}
 
 _FILES = {
     "subset": {
@@ -105,6 +112,42 @@ def load_guitarset(subset: bool = True, force_download: bool = False) -> pd.Data
             cache_path.unlink()
             raise RuntimeError(
                 f"SHA-256 mismatch on {meta['name']} — try load_guitarset(force_download=True)."
+            )
+    else:
+        print(f"Loading from cache: {cache_path}")
+
+    return pd.read_csv(cache_path)
+
+
+def load_world_happiness(force_download: bool = False) -> pd.DataFrame:
+    """Return World Happiness Report 2019–2025 as a pandas DataFrame.
+
+    Parameters
+    ----------
+    force_download : bool, default False
+        Re-download even if a cached copy exists.
+
+    Returns
+    -------
+    pd.DataFrame
+        Columns: year, country, happiness_score, happiness_above_median,
+                 explained_log_gdp_per_capita, explained_social_support,
+                 explained_healthy_life_expectancy, explained_freedom,
+                 explained_generosity, explained_corruption
+    """
+    meta = _HAPPINESS_FILE
+    cache_path = _CACHE_DIR / meta["name"]
+
+    if force_download and cache_path.exists():
+        cache_path.unlink()
+
+    if not cache_path.exists():
+        url = _BASE_URL + meta["name"]
+        _download(url, cache_path, meta["size_hint"])
+        if not _verify_sha256(cache_path, meta["sha256"]):
+            cache_path.unlink()
+            raise RuntimeError(
+                "SHA-256 mismatch on world_happiness.csv — try load_world_happiness(force_download=True)."
             )
     else:
         print(f"Loading from cache: {cache_path}")

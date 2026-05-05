@@ -57,9 +57,6 @@ class Softmax(Activation):
         return e_x / np.sum(e_x, axis=-1, keepdims=True)
 
     def gradient(self, x: np.ndarray) -> np.ndarray:
-        # Softmax gradient is more complex; typically handled directly in loss.
-        # For now, we raise NotImplementedError.
-        raise NotImplementedError(
-            "Softmax gradient is usually combined with cross‑entropy loss. "
-            "Use a dedicated loss function instead."
-        )
+        # Fused with CategoricalCrossEntropy: the combined gradient dL/dz = softmax(z) - y
+        # is passed as dA into Dense.backward. Returning ones lets it pass straight through.
+        return np.ones_like(x)

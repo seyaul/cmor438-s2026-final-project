@@ -12,4 +12,4 @@ class MeanSquaredError(Loss):
         Gradient of MSE with respect to y_pred.
         Returns array of same shape as y_pred.
         """
-        return 2 * (y_pred - y_true) / y_true.size
+        return 2 * (y_pred - y_true)

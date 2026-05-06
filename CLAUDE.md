@@ -198,6 +198,12 @@ fitzsimmons-cmor-438/
 
 ---
 
+## Response Style
+
+- Do not use em dashes (—) in responses. Use a comma, colon, or restructure the sentence instead.
+
+---
+
 ## Code Standards
 
 - Algorithms must be implemented from scratch using only `numpy`, `pandas`, `scipy`, and `matplotlib` — no `sklearn` implementations in `src/`

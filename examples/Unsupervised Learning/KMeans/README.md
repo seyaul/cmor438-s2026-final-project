@@ -39,8 +39,19 @@ jupyter notebook kmeans_from_scratch.ipynb
 
 - **Source**: GuitarSet (all 6 strings, 10-track subset)
 - **Frames**: ~125,000 audio frames (46 ms each)
-- **Features**: 18-dimensional (RMS, ZCR, spectral centroid, bandwidth, rolloff, 13 MFCCs)
+- **Features**: 18-dimensional — see table below
 - **Labels**: MIDI note number per frame (0 = silence), used only for evaluation
+
+### Features (18 per frame)
+
+| Feature | What it measures |
+|---------|-----------------|
+| RMS | How loud the frame is — near zero for silence, higher for active notes |
+| ZCR | Zero-crossing rate: how often the signal crosses zero — higher for noisy or silent frames |
+| Spectral centroid | The "brightness" of the sound — where the energy is concentrated in the frequency spectrum |
+| Spectral bandwidth | How spread out the energy is around the centroid |
+| Spectral rolloff | The frequency below which 85% of the signal energy lies |
+| MFCC 1–13 | Mel-frequency cepstral coefficients: a compact encoding of the overall spectral shape (timbre) |
 
 ## Main Takeaways
 

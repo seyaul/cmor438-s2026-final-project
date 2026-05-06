@@ -28,7 +28,14 @@ Weights are updated via mini-batch SGD:  `θ ← θ − η ∇θ L`
 
 ### Features (18 per frame)
 
-Same as the Perceptron notebook: RMS, ZCR, spectral centroid/bandwidth/rolloff, MFCC 1–13.
+| Feature | What it measures |
+|---------|-----------------|
+| RMS | How loud the frame is — near zero for silence, higher for active notes |
+| ZCR | Zero-crossing rate: how often the signal crosses zero — higher for noisy or silent frames |
+| Spectral centroid | The "brightness" of the sound — where the energy is concentrated in the frequency spectrum |
+| Spectral bandwidth | How spread out the energy is around the centroid |
+| Spectral rolloff | The frequency below which 85% of the signal energy lies |
+| MFCC 1–13 | Mel-frequency cepstral coefficients: a compact encoding of the overall spectral shape (timbre) |
 
 ### Label construction
 

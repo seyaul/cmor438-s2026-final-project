@@ -18,36 +18,11 @@ This notebook walks through four ensemble strategies, each building on the previ
 - **Frames:** voiced frames only (midi_label ≠ 0), all 6 strings
 - **Features (18 per frame):**
 
-| Index | Feature |
-|-------|---------|
-| 0 | RMS energy |
-| 1 | Zero-crossing rate |
-| 2 | Spectral centroid |
-| 3 | Spectral bandwidth |
-| 4 | Spectral rolloff |
-| 5–17 | MFCC 1–13 |
-
-## How to Run
-
-### Prerequisites
-
-```bash
-pip install -r requirements.txt   # from repo root
-```
-
-### Run the notebook
-
-```bash
-jupyter notebook ensembles_from_scratch.ipynb
-```
-
-Or open in VS Code / JupyterLab and run all cells.
-
-## Expected Outputs
-
-- **Decision tree baseline:** ~60–70% accuracy (one tree, no ensemble)
-- **Bagging:** improvement over baseline by variance reduction
-- **Random Forest:** highest accuracy among tree-based methods (~80–90%)
-- **AdaBoost:** competitive, especially on hard-to-classify frames
-- **Stacking:** combines RF + AdaBoost predictions via logistic regression meta-learner
-- **Comparison table:** all models side-by-side with accuracy, per-class F1, and train time
+| Feature | What it measures |
+|---------|-----------------|
+| RMS | How loud the frame is — near zero for silence, higher for active notes |
+| ZCR | Zero-crossing rate: how often the signal crosses zero — higher for noisy or silent frames |
+| Spectral centroid | The "brightness" of the sound — where the energy is concentrated in the frequency spectrum |
+| Spectral bandwidth | How spread out the energy is around the centroid |
+| Spectral rolloff | The frequency below which 85% of the signal energy lies |
+| MFCC 1–13 | Mel-frequency cepstral coefficients: a compact encoding of the overall spectral shape (timbre) |
